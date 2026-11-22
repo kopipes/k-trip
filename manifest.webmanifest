@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "K-Trip · Korea Autumn Escape",
+  "short_name": "K-Trip",
+  "description": "Panduan perjalanan Korea Autumn Escape.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffbf6",
+  "theme_color": "#fffaf4",
+  "icons": [
+    { "src": "./assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

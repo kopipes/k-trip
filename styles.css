@@ -141,3 +141,9 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .privacy-notice { display:flex; align-items:flex-start; gap:11px; padding:12px; margin:0 0 13px; border:1px solid #f3d5e1; border-radius:16px; background:#fff1f6; }
 .privacy-notice strong { color:#78364f; font-size:.9rem; }
 .privacy-notice p { color:var(--quiet); font-size:.84rem; line-height:1.5; margin-top:3px; }
+.install-button { min-height:44px; color:var(--accent); }
+#install-help { width:min(100% - 32px,440px); color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:20px; }
+#install-help::backdrop { background:#3d2c3680; }
+#install-help h2 { font-size:1.25rem; }
+#install-help p { margin-top:12px; line-height:1.55; font-size:.92rem; }
+#install-help form { margin-top:16px; }

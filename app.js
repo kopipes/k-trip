@@ -342,3 +342,41 @@ main.addEventListener('submit', event => {
 
 window.addEventListener('hashchange',render);
 render();
+
+const installButton = document.querySelector('#install-app');
+const standalone = window.matchMedia('(display-mode: standalone)');
+let installPrompt;
+function updateInstallButton() {
+  installButton.hidden = standalone.matches || navigator.standalone === true;
+}
+updateInstallButton();
+standalone.addEventListener('change',updateInstallButton);
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  installPrompt = event;
+});
+
+installButton.addEventListener('click', async () => {
+  if (!installPrompt) {
+    document.querySelector('#install-help').showModal();
+    return;
+  }
+  const prompt = installPrompt;
+  installPrompt = null;
+  try {
+    const result = await prompt.prompt();
+    if (result.outcome === 'accepted') installButton.hidden = true;
+  } catch {
+    document.querySelector('#install-help').showModal();
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  installPrompt = null;
+  installButton.hidden = true;
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(error => console.warn('Offline K-Trip:',error));
+}

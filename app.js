@@ -35,7 +35,7 @@ const tabs = [
 ];
 const main = document.querySelector('main');
 const nav = document.querySelector('nav');
-const keys = { checks:'k-trip-2026-checks', note:'k-trip-2026-note' };
+const keys = { checks:'k-trip-2026-checks', note:'k-trip-2026-note', notes:'k-trip-2026-notes', items:'k-trip-2026-items' };
 
 function read(key) {
   try { return localStorage.getItem(key); }
@@ -49,8 +49,26 @@ function save(key, value) {
 
 let checked = {};
 try { checked = JSON.parse(read(keys.checks)) ?? {}; } catch {}
-let note = read(keys.note) ?? '';
-let savedNote = note;
+function readArray(key, fallback = []) {
+  try {
+    const value = JSON.parse(read(key));
+    return Array.isArray(value) ? value : fallback;
+  } catch { return fallback; }
+}
+
+const legacyNote = read(keys.note);
+let entries = readArray(keys.notes, legacyNote ? [
+  { id:'legacy', title:'Catatan trip', category:'', tags:[], body:legacyNote }
+] : []);
+let itemChanges = readArray(keys.items);
+let draft = null;
+let noteQuery = '';
+let noteCategory = '';
+
+const escape = value => String(value).replace(/[&<>"']/g, char => ({
+  '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+})[char]);
+const newId = () => globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const collapse = new Set();
 
 const heading = (symbol, title, description) => `<header class="page-heading"><span class="tile pink">${icon(symbol)}</span><h1>${title}</h1><p>${description}</p></header>`;
@@ -77,17 +95,91 @@ function itinerary() {
   </section>`;
 }
 
-const allItems = packing.flatMap(([, items]) => items);
+function checklistGroups() {
+  const removed = new Set(itemChanges.filter(item => item.removed).map(item => item.id));
+  const groups = packing.map(([group, items]) => [group, items.filter(([id]) => !removed.has(id))]);
+  const personal = itemChanges.filter(item => !item.removed).map(({id,label}) => [id,label]);
+  if (personal.length) groups.push(['Item tambahan',personal]);
+  return groups.filter(([,items]) => items.length);
+}
+
+function checklistRows(groups) {
+  if (!groups.length) return '<p class="empty-state">Checklist kosong. Tambahkan item persiapanmu di atas.</p>';
+  return groups.map(([group,items]) => `<section class="card check-group"><h2>${group}</h2>${items.map(([id,label]) => `<div class="check-line">
+    <label class="check-row"><input type="checkbox" data-item="${escape(id)}" ${checked[id] ? 'checked' : ''}><span>${escape(label)}</span></label>
+    <button class="quiet-button" type="button" data-remove-item="${escape(id)}" aria-label="Hapus ${escape(label)}">Hapus</button>
+  </div>`).join('')}</section>`).join('');
+}
+
+function updateProgress(groups) {
+  const items = groups.flatMap(([,items]) => items);
+  const count = items.filter(([id]) => checked[id]).length;
+  const progress = main.querySelector('progress');
+  progress.max = Math.max(1,items.length);
+  progress.value = count;
+  main.querySelector('#progress-label').textContent = `${count} / ${items.length}`;
+}
+
 function checklist() {
-  const count = allItems.filter(([id]) => checked[id]).length;
-  return `${heading('check','Checklist','Centang persiapanmu sebelum berangkat. Progres tersimpan di browser ini.')}
-  <div class="card progress-card"><div><strong>Persiapan trip</strong><span id="progress-label">${count} / ${allItems.length}</span></div><progress aria-label="Progres checklist" value="${count}" max="${allItems.length}"></progress><small id="check-status" role="status"></small></div>
-  ${packing.map(([group,items]) => `<section class="card check-group"><h2>${group}</h2>${items.map(([id,label]) => `<label class="check-row"><input type="checkbox" data-item="${id}" ${checked[id] ? 'checked' : ''}><span>${label}</span></label>`).join('')}</section>`).join('')}`;
+  return `${heading('check','Checklist','Sesuaikan daftar persiapanmu. Perubahan tersimpan di browser ini.')}
+  <div class="card progress-card"><div><strong>Persiapan trip</strong><span id="progress-label"></span></div><progress aria-label="Progres checklist" value="0" max="1"></progress><small id="check-status" role="status"></small></div>
+  <form id="item-form" class="card entry-form"><label for="item-name">Item baru</label><div class="add-row"><input id="item-name" name="label" type="text" required maxlength="120" placeholder="Contoh: Sarung tangan"><button type="submit" class="primary">Tambah</button></div></form>
+  <div id="check-groups"></div>`;
+}
+
+function refreshChecklist() {
+  const groups = checklistGroups();
+  main.querySelector('#check-groups').innerHTML = checklistRows(groups);
+  updateProgress(groups);
+}
+
+function noteList() {
+  const query = noteQuery.trim().toLocaleLowerCase('id');
+  const matches = entries.filter(entry =>
+    (!noteCategory || entry.category === noteCategory) &&
+    [entry.title,entry.category,...entry.tags,entry.body].some(value => value.toLocaleLowerCase('id').includes(query))
+  );
+  if (!entries.length) return '<p class="empty-state">Belum ada catatan. Tambahkan catatan pertamamu.</p>';
+  if (!matches.length) return '<p class="empty-state">Tidak ada catatan yang cocok.</p>';
+  return matches.map(entry => `<article class="card saved-note">
+    <h2>${escape(entry.title)}</h2>
+    <div class="note-labels">${entry.category ? `<span>${escape(entry.category)}</span>` : ''}
+    ${entry.tags.map(tag => `<span class="tag">#${escape(tag)}</span>`).join('')}</div>
+    <p>${escape(entry.body)}</p>
+    <div class="note-actions"><button class="quiet-button" type="button" data-edit-note="${escape(entry.id)}">Edit</button><button class="quiet-button" type="button" data-remove-note="${escape(entry.id)}">Hapus</button></div>
+  </article>`).join('');
+}
+
+function renderNoteEditor(focus = false) {
+  const editor = main.querySelector('#note-editor');
+  editor.innerHTML = draft ? `<form id="note-form" class="card note-card entry-form">
+    <h2>${draft.id ? 'Edit catatan' : 'Catatan baru'}</h2>
+    <label for="note-title">Judul</label><input id="note-title" name="title" required maxlength="100" value="${escape(draft.title)}">
+    <label for="note-category">Kategori</label><input id="note-category" name="category" list="note-categories" maxlength="45" value="${escape(draft.category)}" placeholder="Contoh: Kuliner">
+    <label for="note-tags">Tag <small>(pisahkan dengan koma)</small></label><input id="note-tags" name="tags" maxlength="180" value="${escape(draft.tags)}" placeholder="Contoh: Seoul, hari 6">
+    <label for="note-text">Isi catatan</label><textarea id="note-text" name="body" rows="5" required>${escape(draft.body)}</textarea>
+    <div class="note-actions"><button type="submit" class="primary">Simpan catatan</button><button type="button" class="quiet-button" data-cancel-note>Batal</button></div>
+  </form>` : '<button type="button" class="primary add-note" data-add-note>+ Catatan baru</button>';
+  if (focus) editor.querySelector('input,button').focus();
+}
+
+function refreshNotes() {
+  const categories = [...new Set(entries.map(entry => entry.category).filter(Boolean))].sort((a,b) => a.localeCompare(b,'id'));
+  if (!categories.includes(noteCategory)) noteCategory = '';
+  const options = categories.map(category => `<option value="${escape(category)}">${escape(category)}</option>`).join('');
+  main.querySelector('#note-categories').innerHTML = options;
+  const filter = main.querySelector('#category-filter');
+  filter.innerHTML = '<option value="">Semua kategori</option>' + options;
+  filter.value = noteCategory;
+  main.querySelector('#note-list').innerHTML = noteList();
 }
 
 function notes() {
-  return `${heading('note','Catatan','Simpan ide hari bebas, tempat makan, atau pengingat pribadi di browser ini.')}
-  <form id="note-form" class="card note-card"><label for="note-text">Catatan trip</label><textarea id="note-text" rows="10" placeholder="Tulis catatanmu…"></textarea><div class="note-actions"><button type="submit" class="primary">Simpan catatan</button><span role="status" id="note-status"></span></div></form>`;
+  return `${heading('note','Catatan','Simpan beberapa catatan pribadi dan temukan lagi dengan kategori atau tag.')}
+  <div id="note-editor"></div><p id="note-status" class="action-status" role="status"></p>
+  <div class="card entry-form filters"><div><label for="note-search">Cari catatan</label><input id="note-search" type="search" value="${escape(noteQuery)}" placeholder="Judul, isi, atau tag"></div>
+  <div><label for="category-filter">Kategori</label><select id="category-filter"></select><datalist id="note-categories"></datalist></div></div>
+  <div id="note-list" class="note-list"></div>`;
 }
 
 function usefulLinks() {
@@ -113,10 +205,10 @@ function render() {
   currentPage = page;
   main.innerHTML = pages[page]();
   nav.innerHTML = `<div class="nav-inner">${tabs.map(([id,symbol,label]) => `<a href="#${id}" ${page === id ? 'aria-current="page"' : ''}><span>${icon(symbol)}</span>${label}</a>`).join('')}</div>`;
-  const editor = document.querySelector('textarea');
-  if (editor) {
-    editor.value = note;
-    if (note !== savedNote) document.querySelector('#note-status').textContent = 'Perubahan belum disimpan.';
+  if (page === 'checklist') refreshChecklist();
+  if (page === 'catatan') {
+    renderNoteEditor();
+    refreshNotes();
   }
   window.scrollTo(0,0);
   if (moved) main.focus({preventScroll:true});
@@ -124,11 +216,43 @@ function render() {
 
 main.addEventListener('click', event => {
   const button = event.target.closest('[data-jump]');
-  if (!button) return;
-  const day = document.getElementById(`day-${button.dataset.jump}`);
-  day.open = true;
-  day.querySelector('summary').focus({preventScroll:true});
-  day.scrollIntoView({block:'start'});
+  if (button) {
+    const day = document.getElementById(`day-${button.dataset.jump}`);
+    day.open = true;
+    day.querySelector('summary').focus({preventScroll:true});
+    day.scrollIntoView({block:'start'});
+  }
+
+  const removeItem = event.target.closest('[data-remove-item]');
+  if (removeItem && window.confirm(`${removeItem.getAttribute('aria-label')} dari checklist?`)) {
+    const {removeItem:id} = removeItem.dataset;
+    const next = id.startsWith('personal-') ?
+      itemChanges.filter(item => item.id !== id) : [...itemChanges,{id,removed:true}];
+    if (storeItems(next,'Item dihapus.')) main.querySelector('#item-name').focus();
+  }
+
+  const editNote = event.target.closest('[data-edit-note]');
+  const addNote = event.target.closest('[data-add-note]');
+  const cancelNote = event.target.closest('[data-cancel-note]');
+  if (editNote || addNote || cancelNote) {
+    if (draft && !cancelNote && !window.confirm('Ganti catatan yang sedang ditulis?')) return;
+    const entry = entries.find(item => item.id === editNote?.dataset.editNote);
+    draft = cancelNote ? null : entry ?
+      {...entry,tags:entry.tags.join(', ')} : {title:'',category:'',tags:'',body:''};
+    renderNoteEditor(true);
+    main.querySelector('#note-status').textContent = '';
+  }
+
+  const removeNote = event.target.closest('[data-remove-note]');
+  if (removeNote && window.confirm('Hapus catatan ini?')) {
+    const {removeNote:id} = removeNote.dataset;
+    if (!storeNotes(entries.filter(entry => entry.id !== id),'Catatan dihapus.')) return;
+    if (draft?.id === id) {
+      draft = null;
+      renderNoteEditor();
+    }
+    main.querySelector('#note-search').focus();
+  }
 });
 
 main.addEventListener('toggle', event => {
@@ -139,28 +263,75 @@ main.addEventListener('toggle', event => {
   else collapse.delete(Number(day.dataset.day));
 }, true);
 
+function storeItems(next, message) {
+  const success = save(keys.items, JSON.stringify(next));
+  if (success) {
+    itemChanges = next;
+    refreshChecklist();
+  }
+  main.querySelector('#check-status').textContent = success ? message : 'Perubahan gagal disimpan di browser ini.';
+  return success;
+}
+
+function storeNotes(next, message) {
+  const success = save(keys.notes, JSON.stringify(next));
+  if (success) {
+    entries = next;
+    refreshNotes();
+  }
+  main.querySelector('#note-status').textContent = success ? message : 'Catatan gagal disimpan di browser ini.';
+  return success;
+}
+
 main.addEventListener('change', event => {
+  if (event.target.id === 'category-filter') {
+    noteCategory = event.target.value;
+    main.querySelector('#note-list').innerHTML = noteList();
+  }
   const item = event.target.dataset.item;
   if (!item) return;
-  checked[item] = event.target.checked;
-  const count = allItems.filter(([id]) => checked[id]).length;
-  document.querySelector('progress').value = count;
-  document.querySelector('#progress-label').textContent = `${count} / ${allItems.length}`;
-  document.querySelector('#check-status').textContent = save(keys.checks, JSON.stringify(checked)) ? '' : 'Progres hanya tersimpan sementara karena penyimpanan browser tidak tersedia.';
+  const next = {...checked,[item]:event.target.checked};
+  const success = save(keys.checks, JSON.stringify(next));
+  if (success) checked = next;
+  else event.target.checked = Boolean(checked[item]);
+  updateProgress(checklistGroups());
+  main.querySelector('#check-status').textContent = success ? '' : 'Progres gagal disimpan di browser ini.';
 });
 
 main.addEventListener('input', event => {
-  if (event.target.id !== 'note-text') return;
-  note = event.target.value;
-  document.querySelector('#note-status').textContent = note === savedNote ? '' : 'Perubahan belum disimpan.';
+  if (event.target.id === 'note-search') {
+    noteQuery = event.target.value;
+    main.querySelector('#note-list').innerHTML = noteList();
+  }
+  if (event.target.form?.id === 'note-form') draft[event.target.name] = event.target.value;
 });
 
 main.addEventListener('submit', event => {
-  if (event.target.id !== 'note-form') return;
+  const form = event.target;
+  if (form.id === 'item-form') {
+    event.preventDefault();
+    const label = new FormData(form).get('label').trim();
+    if (!label) {
+      main.querySelector('#check-status').textContent = 'Isi nama item terlebih dahulu.';
+      return;
+    }
+    if (storeItems([...itemChanges,{id:`personal-${newId()}`,label}],'Item ditambahkan.')) form.reset();
+  }
+  if (form.id !== 'note-form') return;
   event.preventDefault();
-  const success = save(keys.note,note);
-  if (success) savedNote = note;
-  document.querySelector('#note-status').textContent = success ? 'Catatan tersimpan.' : 'Catatan gagal disimpan di browser ini.';
+  const title = draft.title.trim();
+  const body = draft.body.trim();
+  if (!title || !body) {
+    main.querySelector('#note-status').textContent = 'Isi judul dan isi catatan terlebih dahulu.';
+    return;
+  }
+  const tags = [...new Set(draft.tags.split(',').map(tag => tag.trim().replace(/^#+/,'').trim()).filter(Boolean))];
+  const entry = {id:draft.id ?? newId(), title, body, category:draft.category.trim(), tags};
+  const next = draft.id ? entries.map(item => item.id === entry.id ? entry : item) : [entry,...entries];
+  if (storeNotes(next,'Catatan tersimpan.')) {
+    draft = null;
+    renderNoteEditor(true);
+  }
 });
 
 window.addEventListener('hashchange',render);

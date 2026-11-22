@@ -60,7 +60,7 @@ const legacyNote = read(keys.note);
 let entries = readArray(keys.notes, legacyNote ? [
   { id:'legacy', title:'Catatan trip', category:'', tags:[], body:legacyNote }
 ] : []);
-let itemChanges = readArray(keys.items);
+let personalItems = readArray(keys.items).filter(item => !item.removed && item.id.startsWith('personal-'));
 let draft = null;
 let noteQuery = '';
 let noteCategory = '';
@@ -96,18 +96,15 @@ function itinerary() {
 }
 
 function checklistGroups() {
-  const removed = new Set(itemChanges.filter(item => item.removed).map(item => item.id));
-  const groups = packing.map(([group, items]) => [group, items.filter(([id]) => !removed.has(id))]);
-  const personal = itemChanges.filter(item => !item.removed).map(({id,label}) => [id,label]);
-  if (personal.length) groups.push(['Item tambahan',personal]);
-  return groups.filter(([,items]) => items.length);
+  const personal = personalItems.map(({id,label}) => [id,label]);
+  return personal.length ? [...packing,['Item tambahan pribadi',personal,true]] : packing;
 }
 
 function checklistRows(groups) {
   if (!groups.length) return '<p class="empty-state">Checklist kosong. Tambahkan item persiapanmu di atas.</p>';
-  return groups.map(([group,items]) => `<section class="card check-group"><h2>${group}</h2>${items.map(([id,label]) => `<div class="check-line">
+  return groups.map(([group,items,personal]) => `<section class="card check-group"><h2>${group}</h2>${items.map(([id,label]) => `<div class="check-line">
     <label class="check-row"><input type="checkbox" data-item="${escape(id)}" ${checked[id] ? 'checked' : ''}><span>${escape(label)}</span></label>
-    <button class="quiet-button" type="button" data-remove-item="${escape(id)}" aria-label="Hapus ${escape(label)}">Hapus</button>
+    ${personal ? `<button class="quiet-button" type="button" data-remove-item="${escape(id)}" aria-label="Hapus ${escape(label)}">Hapus</button>` : ''}
   </div>`).join('')}</section>`).join('');
 }
 
@@ -129,7 +126,7 @@ function privacyNotice(description) {
 
 function checklist() {
   return `${heading('check','Checklist','Sesuaikan daftar persiapanmu.')}
-  ${privacyNotice('Item tambahan, item yang kamu hapus dari daftar, dan centang hanya tersimpan di profil browser ini.')}
+  ${privacyNotice('Item tambahan dan status centang hanya tersimpan di profil browser ini. Kamu bisa menghapus item tambahan yang kamu buat.')}
   <div class="card progress-card"><div><strong>Persiapan trip</strong><span id="progress-label"></span></div><progress aria-label="Progres checklist" value="0" max="1"></progress><small id="check-status" role="status"></small></div>
   <form id="item-form" class="card entry-form"><label for="item-name">Item baru</label><div class="add-row"><input id="item-name" name="label" type="text" required maxlength="120" placeholder="Contoh: Sarung tangan"><button type="submit" class="primary">Tambah</button></div></form>
   <div id="check-groups"></div>`;
@@ -233,10 +230,10 @@ main.addEventListener('click', event => {
   }
 
   const removeItem = event.target.closest('[data-remove-item]');
-  if (removeItem && window.confirm(`${removeItem.getAttribute('aria-label')} dari checklist?`)) {
-    const {removeItem:id} = removeItem.dataset;
-    const next = id.startsWith('personal-') ?
-      itemChanges.filter(item => item.id !== id) : [...itemChanges,{id,removed:true}];
+  const itemId = removeItem?.dataset.removeItem;
+  if (personalItems.some(item => item.id === itemId) &&
+      window.confirm(`${removeItem.getAttribute('aria-label')} dari checklist?`)) {
+    const next = personalItems.filter(item => item.id !== itemId);
     if (storeItems(next,'Item dihapus.')) main.querySelector('#item-name').focus();
   }
 
@@ -275,7 +272,7 @@ main.addEventListener('toggle', event => {
 function storeItems(next, message) {
   const success = save(keys.items, JSON.stringify(next));
   if (success) {
-    itemChanges = next;
+    personalItems = next;
     refreshChecklist();
   }
   main.querySelector('#check-status').textContent = success ? message : 'Perubahan gagal disimpan di browser ini.';
@@ -324,7 +321,7 @@ main.addEventListener('submit', event => {
       main.querySelector('#check-status').textContent = 'Isi nama item terlebih dahulu.';
       return;
     }
-    if (storeItems([...itemChanges,{id:`personal-${newId()}`,label}],'Item ditambahkan.')) form.reset();
+    if (storeItems([...personalItems,{id:`personal-${newId()}`,label}],'Item ditambahkan.')) form.reset();
   }
   if (form.id !== 'note-form') return;
   event.preventDefault();

@@ -120,8 +120,16 @@ function updateProgress(groups) {
   main.querySelector('#progress-label').textContent = `${count} / ${items.length}`;
 }
 
+function privacyNotice(description) {
+  return `<aside class="privacy-notice" aria-label="Penyimpanan pribadi">
+    <span class="tile pink">${icon('shield')}</span>
+    <div><strong>Pribadi · Browser ini</strong><p>${description} Peserta lain yang membuka tautan ini dari perangkat atau profil browser berbeda hanya melihat data mereka sendiri.</p></div>
+  </aside>`;
+}
+
 function checklist() {
-  return `${heading('check','Checklist','Sesuaikan daftar persiapanmu. Perubahan tersimpan di browser ini.')}
+  return `${heading('check','Checklist','Sesuaikan daftar persiapanmu.')}
+  ${privacyNotice('Item tambahan, item yang kamu hapus dari daftar, dan centang hanya tersimpan di profil browser ini.')}
   <div class="card progress-card"><div><strong>Persiapan trip</strong><span id="progress-label"></span></div><progress aria-label="Progres checklist" value="0" max="1"></progress><small id="check-status" role="status"></small></div>
   <form id="item-form" class="card entry-form"><label for="item-name">Item baru</label><div class="add-row"><input id="item-name" name="label" type="text" required maxlength="120" placeholder="Contoh: Sarung tangan"><button type="submit" class="primary">Tambah</button></div></form>
   <div id="check-groups"></div>`;
@@ -175,7 +183,8 @@ function refreshNotes() {
 }
 
 function notes() {
-  return `${heading('note','Catatan','Simpan beberapa catatan pribadi dan temukan lagi dengan kategori atau tag.')}
+  return `${heading('note','Catatan','Temukan catatan dengan mencari judul, isi, kategori, atau tag.')}
+  ${privacyNotice('Catatanmu hanya tersimpan dan bisa dilihat di profil browser ini.')}
   <div id="note-editor"></div><p id="note-status" class="action-status" role="status"></p>
   <div class="card entry-form filters"><div><label for="note-search">Cari catatan</label><input id="note-search" type="search" value="${escape(noteQuery)}" placeholder="Judul, isi, atau tag"></div>
   <div><label for="category-filter">Kategori</label><select id="category-filter"></select><datalist id="note-categories"></datalist></div></div>

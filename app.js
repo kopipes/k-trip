@@ -117,16 +117,16 @@ function updateProgress(groups) {
   main.querySelector('#progress-label').textContent = `${count} / ${items.length}`;
 }
 
-function privacyNotice(description) {
+function privacyNotice(title, description) {
   return `<aside class="privacy-notice" aria-label="Penyimpanan pribadi">
     <span class="tile pink">${icon('shield')}</span>
-    <div><strong>Pribadi · Browser ini</strong><p>${description} Peserta lain yang membuka tautan ini dari perangkat atau profil browser berbeda hanya melihat data mereka sendiri.</p></div>
+    <div><strong>${title}</strong><p>${description} Peserta lain yang membuka link yang sama di HP mereka tidak melihat perubahanmu. Kalau kamu buka dari HP atau aplikasi lain, datamu juga tidak ikut pindah.</p></div>
   </aside>`;
 }
 
 function checklist() {
   return `${heading('check','Checklist','Sesuaikan daftar persiapanmu.')}
-  ${privacyNotice('Item tambahan dan status centang hanya tersimpan di profil browser ini. Kamu bisa menghapus item tambahan yang kamu buat.')}
+  ${privacyNotice('Checklist ini untukmu', 'Yang kamu centang dan tambahkan tersimpan di tempat kamu membuka web ini. Kamu bisa menghapus barang yang kamu tambahkan sendiri.')}
   <div class="card progress-card"><div><strong>Persiapan trip</strong><span id="progress-label"></span></div><progress aria-label="Progres checklist" value="0" max="1"></progress><small id="check-status" role="status"></small></div>
   <form id="item-form" class="card entry-form"><label for="item-name">Item baru</label><div class="add-row"><input id="item-name" name="label" type="text" required maxlength="120" placeholder="Contoh: Sarung tangan"><button type="submit" class="primary">Tambah</button></div></form>
   <div id="check-groups"></div>`;
@@ -181,7 +181,7 @@ function refreshNotes() {
 
 function notes() {
   return `${heading('note','Catatan','Temukan catatan dengan mencari judul, isi, kategori, atau tag.')}
-  ${privacyNotice('Catatanmu hanya tersimpan dan bisa dilihat di profil browser ini.')}
+  ${privacyNotice('Catatan ini untukmu', 'Catatanmu tersimpan di tempat kamu membuka web ini.')}
   <div id="note-editor"></div><p id="note-status" class="action-status" role="status"></p>
   <div class="card entry-form filters"><div><label for="note-search">Cari catatan</label><input id="note-search" type="search" value="${escape(noteQuery)}" placeholder="Judul, isi, atau tag"></div>
   <div><label for="category-filter">Kategori</label><select id="category-filter"></select><datalist id="note-categories"></datalist></div></div>

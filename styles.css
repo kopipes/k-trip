@@ -158,3 +158,10 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .contact-actions a { display:inline-flex; align-items:center; gap:4px; min-height:44px; padding:7px 10px; border-radius:10px; background:var(--pink); color:var(--accent); font-size:.82rem; font-weight:800; }
 .contact-actions a:last-child { background:var(--sage); color:#4b5c36; }
 .contact-actions svg { width:15px; height:15px; }
+.exchange-card { padding:15px; margin-bottom:13px; }
+.exchange-card h2 { font-size:1.05rem; }
+.exchange-card p { margin:5px 0 9px; color:var(--quiet); font-size:.85rem; line-height:1.5; }
+.exchange-card table { width:100%; border-collapse:collapse; font-size:.9rem; }
+.exchange-card th,.exchange-card td { padding:8px 4px; text-align:left; border-bottom:1px solid var(--line); }
+.exchange-card tr > :last-child { text-align:right; }
+.exchange-card tbody tr:last-child > * { border-bottom:0; }

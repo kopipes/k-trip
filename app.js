@@ -228,9 +228,24 @@ function usefulLinks() {
   ${links.map(([group,items]) => `<section class="link-group"><h2>${group}</h2>${items.map(([title,desc,url,symbol]) => `<a class="card resource" href="${url}" rel="noopener noreferrer" target="_blank" aria-label="${title} (buka tab baru)"><span class="tile sage">${icon(symbol)}</span><span class="row-copy"><strong>${title}</strong><span>${desc}</span></span><span class="arrow">${icon('external')}</span></a>`).join('')}</section>`).join('')}`;
 }
 
+function wonTable() {
+  const rupiahPerWon = 13.66;
+  const amounts = [100, 500, 1000, 5000, 10000];
+  const format = new Intl.NumberFormat('id-ID');
+  return `<section class="card exchange-card" aria-labelledby="exchange-title">
+    <h2 id="exchange-title">Perkiraan Won ke Rupiah</h2>
+    <p>1 won ≈ Rp${format.format(rupiahPerWon)}. Acuan Pergi.com, 27 Oktober 2026. Kurs saat menukar uang bisa berbeda.</p>
+    <table aria-labelledby="exchange-title">
+      <thead><tr><th scope="col">Won (KRW)</th><th scope="col">Rupiah (IDR)</th></tr></thead>
+      <tbody>${amounts.map(amount => `<tr><th scope="row">₩${format.format(amount)}</th><td>≈ Rp${format.format(Math.round(amount * rupiahPerWon))}</td></tr>`).join('')}</tbody>
+    </table>
+  </section>`;
+}
+
 function koreaInfo() {
   return `${heading('info','Info Korea','Panduan singkat untuk persiapan dan hari-hari pertamamu di Korea.')}
   <div class="fact-grid"><div class="card"><span>Perkiraan suhu</span><strong>−2–12°C</strong></div><div class="card"><span>Zona waktu</span><strong>WIB +2 jam</strong></div><div class="card"><span>Mata uang</span><strong>Won · KRW</strong></div></div>
+  ${wonTable()}
   <div class="guide-list">${guide.map(([symbol,title,desc],i) => `<details class="card guide"><summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(symbol)}</span><strong>${title}</strong><span class="arrow">${icon('chevron')}</span></summary><p>${desc}</p></details>`).join('')}</div>
   <section class="card contact"><h2>Hotel trip</h2>${Object.values(hotels).map(hotel => `<p class="hotel-dates">${hotel.dates}</p>${hotelDetails(hotel)}`).join('')}</section>
   <section class="card contact"><h2>Kontak trip</h2><dl class="pending"><div><dt>Tour leader</dt><dd>${tourLeader.name}<br>${tourLeader.phone}${tourLeaderActions()}</dd></div><div><dt>Grup WhatsApp</dt><dd class="contact-actions">${whatsappGroupLink}</dd></div></dl></section>`;

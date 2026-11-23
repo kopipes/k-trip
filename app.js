@@ -86,7 +86,10 @@ function tourLeaderActions() {
 }
 
 function hotelDetails(hotel) {
-  return `<div class="hotel-detail"><strong>${hotel.name}</strong><p>${hotel.address}</p>${telephone(hotel.phone)}</div>`;
+  const mapQuery = encodeURIComponent(`${hotel.name}, ${hotel.address}`);
+  return `<div class="hotel-detail"><strong>${hotel.name}</strong><p>${hotel.address}</p>${telephone(hotel.phone)}
+    <div class="contact-actions"><a href="https://www.google.com/maps/search/?api=1&amp;query=${mapQuery}" target="_blank" rel="noopener noreferrer" aria-label="Buka di Peta: ${hotel.name}">${icon('pin')} Buka di Peta</a></div>
+  </div>`;
 }
 
 function meetingCard() {

@@ -154,3 +154,7 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .hotel-detail { background:var(--sage); border-radius:12px; padding:10px 12px; margin:6px 0 10px; font-size:.9rem; }
 .hotel-dates { font-size:.82rem; color:var(--quiet); margin-top:9px; }
 .meal + .meal { margin-left:5px; }
+.contact-actions { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.contact-actions a { display:inline-flex; align-items:center; gap:4px; min-height:44px; padding:7px 10px; border-radius:10px; background:var(--pink); color:var(--accent); font-size:.82rem; font-weight:800; }
+.contact-actions a:last-child { background:var(--sage); color:#4b5c36; }
+.contact-actions svg { width:15px; height:15px; }

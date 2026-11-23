@@ -77,6 +77,14 @@ function telephone(phone) {
   return `<a class="contact-link" href="tel:${phone.replace(/[^+0-9]/g,'')}">${phone}</a>`;
 }
 
+function tourLeaderActions() {
+  const digits = tourLeader.phone.replace(/\D/g,'');
+  return `<div class="contact-actions">
+    <a href="tel:+${digits}">${icon('phone')} Telepon</a>
+    <a href="https://wa.me/${digits}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  </div>`;
+}
+
 function hotelDetails(hotel) {
   return `<div class="hotel-detail"><strong>${hotel.name}</strong><p>${hotel.address}</p>${telephone(hotel.phone)}</div>`;
 }
@@ -87,7 +95,7 @@ function meetingCard() {
     <div><h2 id="meeting-title">Titik kumpul keberangkatan</h2>
     <p><strong>${meeting.date} · ${meeting.time}</strong></p>
     <p>${meeting.airport}<br>${meeting.spot}</p>
-    <p>Tour leader · ${tourLeader.name} · ${telephone(tourLeader.phone)}</p></div>
+    <p>Tour leader · ${tourLeader.name} · ${tourLeader.phone}</p>${tourLeaderActions()}</div>
   </section>`;
 }
 
@@ -219,7 +227,7 @@ function koreaInfo() {
   <div class="fact-grid"><div class="card"><span>Perkiraan suhu</span><strong>−2–12°C</strong></div><div class="card"><span>Zona waktu</span><strong>WIB +2 jam</strong></div><div class="card"><span>Mata uang</span><strong>Won · KRW</strong></div></div>
   <div class="guide-list">${guide.map(([symbol,title,desc],i) => `<details class="card guide"><summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(symbol)}</span><strong>${title}</strong><span class="arrow">${icon('chevron')}</span></summary><p>${desc}</p></details>`).join('')}</div>
   <section class="card contact"><h2>Hotel trip</h2>${Object.values(hotels).map(hotel => `<p class="hotel-dates">${hotel.dates}</p>${hotelDetails(hotel)}`).join('')}</section>
-  <section class="card contact"><h2>Kontak trip</h2><dl class="pending"><div><dt>Tour leader</dt><dd>${tourLeader.name}<br>${telephone(tourLeader.phone)}</dd></div><div><dt>Grup WhatsApp</dt><dd aria-label="Belum tersedia">—</dd></div></dl></section>`;
+  <section class="card contact"><h2>Kontak trip</h2><dl class="pending"><div><dt>Tour leader</dt><dd>${tourLeader.name}<br>${tourLeader.phone}${tourLeaderActions()}</dd></div><div><dt>Grup WhatsApp</dt><dd aria-label="Belum tersedia">—</dd></div></dl></section>`;
 }
 
 const pages = { itinerary, checklist, catatan:notes, tautan:usefulLinks, info:koreaInfo };

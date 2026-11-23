@@ -1,9 +1,9 @@
 const scope = self.registration.scope;
 const cachePrefix = `k-trip:${scope}:`;
-const cacheName = `${cachePrefix}1`;
+const cacheName = `${cachePrefix}2`;
 const index = new URL('./index.html', scope).href;
 const files = [
-  './index.html', './styles.css?v=pwa-1', './app.js?v=pwa-1', './data.js',
+  './index.html', './styles.css?v=trip-info-1', './app.js?v=trip-info-1', './data.js?v=trip-info-1',
   './manifest.webmanifest', './assets/korea-autumn.webp',
   './assets/icon-180.png', './assets/icon-192.png', './assets/icon-512.png'
 ];

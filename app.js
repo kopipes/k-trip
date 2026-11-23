@@ -1,4 +1,4 @@
-import { days, packing, guide, links } from './data.js';
+import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=trip-info-1';
 
 const shapes = {
   calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/><path d="M8 15h2m4 0h2"/>',
@@ -73,6 +73,24 @@ const collapse = new Set();
 
 const heading = (symbol, title, description) => `<header class="page-heading"><span class="tile pink">${icon(symbol)}</span><h1>${title}</h1><p>${description}</p></header>`;
 
+function telephone(phone) {
+  return `<a class="contact-link" href="tel:${phone.replace(/[^+0-9]/g,'')}">${phone}</a>`;
+}
+
+function hotelDetails(hotel) {
+  return `<div class="hotel-detail"><strong>${hotel.name}</strong><p>${hotel.address}</p>${telephone(hotel.phone)}</div>`;
+}
+
+function meetingCard() {
+  return `<section class="card meeting-card" aria-labelledby="meeting-title">
+    <span class="tile peach">${icon('pin')}</span>
+    <div><h2 id="meeting-title">Titik kumpul keberangkatan</h2>
+    <p><strong>${meeting.date} · ${meeting.time}</strong></p>
+    <p>${meeting.airport}<br>${meeting.spot}</p>
+    <p>Tour leader · ${tourLeader.name} · ${telephone(tourLeader.phone)}</p></div>
+  </section>`;
+}
+
 function itinerary() {
   return `<section class="hero" aria-labelledby="trip-title">
     <div class="hero-copy"><span class="hero-tag">✿ &nbsp; 7 hari · 5 malam</span>
@@ -80,6 +98,7 @@ function itinerary() {
     <p>${icon('calendar')} 29 Nov – 5 Des 2026</p></div>
   </section>
   <div class="route-strip">${icon('pin')} <span>Incheon <b>·</b> Nami Island <b>·</b> Mt. Sorak <b>·</b> Seoul</span></div>
+  ${meetingCard()}
   <section aria-labelledby="itinerary-title">
     <div class="section-title"><div><h2 id="itinerary-title">Rencana perjalanan</h2><p>Ketuk hari untuk melihat detailnya.</p></div><span class="tile peach">${icon('calendar')}</span></div>
     <div class="day-jump" aria-label="Lompat ke hari">${days.map((day,i) => `<button type="button" data-jump="${i}"><span>${day.weekday}</span><strong>${day.date}</strong></button>`).join('')}</div>
@@ -88,6 +107,8 @@ function itinerary() {
       <div class="detail-body">
         ${day.flight ? `<div class="flight">${icon('plane')}<div><strong>${day.flight[0]}</strong><span>${day.flight[1]}</span></div></div>` : ''}
         <ol class="stops">${day.stops.map(([title,desc]) => `<li><strong>${title}</strong><p>${desc}</p></li>`).join('')}</ol>
+        ${day.hotel ? hotelDetails(hotels[day.hotel]) : ''}
+        ${day.transport ? `<p class="meal">${day.transport}</p>` : ''}
         ${day.meal ? '<p class="meal">Termasuk makan pagi (MP)</p>' : ''}
         ${day.details ? `<dl class="pending">${day.details.map(label => `<div><dt>${label}</dt><dd aria-label="Belum tersedia">—</dd></div>`).join('')}</dl>` : ''}
       </div>
@@ -197,7 +218,8 @@ function koreaInfo() {
   return `${heading('info','Info Korea','Panduan singkat untuk persiapan dan hari-hari pertamamu di Korea.')}
   <div class="fact-grid"><div class="card"><span>Perkiraan suhu</span><strong>−2–12°C</strong></div><div class="card"><span>Zona waktu</span><strong>WIB +2 jam</strong></div><div class="card"><span>Mata uang</span><strong>Won · KRW</strong></div></div>
   <div class="guide-list">${guide.map(([symbol,title,desc],i) => `<details class="card guide"><summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(symbol)}</span><strong>${title}</strong><span class="arrow">${icon('chevron')}</span></summary><p>${desc}</p></details>`).join('')}</div>
-  <section class="card contact"><h2>Kontak trip</h2><dl class="pending"><div><dt>Tour leader</dt><dd aria-label="Belum tersedia">—</dd></div><div><dt>Grup WhatsApp</dt><dd aria-label="Belum tersedia">—</dd></div></dl></section>`;
+  <section class="card contact"><h2>Hotel trip</h2>${Object.values(hotels).map(hotel => `<p class="hotel-dates">${hotel.dates}</p>${hotelDetails(hotel)}`).join('')}</section>
+  <section class="card contact"><h2>Kontak trip</h2><dl class="pending"><div><dt>Tour leader</dt><dd>${tourLeader.name}<br>${telephone(tourLeader.phone)}</dd></div><div><dt>Grup WhatsApp</dt><dd aria-label="Belum tersedia">—</dd></div></dl></section>`;
 }
 
 const pages = { itinerary, checklist, catatan:notes, tautan:usefulLinks, info:koreaInfo };

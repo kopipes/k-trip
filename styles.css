@@ -166,5 +166,5 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .exchange-card tr > :last-child { text-align:right; }
 .exchange-card tbody tr:last-child > * { border-bottom:0; }
 
-.meeting-card > .contact-actions { grid-column:1 / -1; margin-top:0; }
+.meeting-card > .contact-actions { grid-column:1 / -1; justify-content:flex-end; margin-top:0; }
 .meeting-card .contact-actions a { padding-inline:7px; }

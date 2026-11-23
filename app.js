@@ -77,7 +77,7 @@ function telephone(phone) {
   return `<a class="contact-link" href="tel:${phone.replace(/[^+0-9]/g,'')}">${phone}</a>`;
 }
 
-const whatsappGroupLink = '<a href="https://chat.whatsapp.com/DATdhopMHd82jYYWUJLSTl?s=cl&amp;p=a&amp;iam=2" target="_blank" rel="noopener noreferrer">Gabung Grup WhatsApp</a>';
+const whatsappGroupLink = '<a href="https://chat.whatsapp.com/DATdhopMHd82jYYWUJLSTl?s=cl&amp;p=a&amp;iam=2" target="_blank" rel="noopener noreferrer">Grup WA</a>';
 
 function tourLeaderActions(includeGroup = false) {
   const digits = tourLeader.phone.replace(/\D/g,'');
@@ -101,7 +101,8 @@ function meetingCard() {
     <div><h2 id="meeting-title">Titik kumpul keberangkatan</h2>
     <p><strong>${meeting.date} · ${meeting.time}</strong></p>
     <p>${meeting.airport}<br>${meeting.spot}</p>
-    <p>Tour leader · ${tourLeader.name} · ${tourLeader.phone}</p>${tourLeaderActions(true)}</div>
+    <p>Tour leader · ${tourLeader.name} · ${tourLeader.phone}</p></div>
+    ${tourLeaderActions(true)}
   </section>`;
 }
 

@@ -1,4 +1,4 @@
-import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=trip-guide-3';
+import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=travel-time-1';
 
 const shapes = {
   calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/><path d="M8 15h2m4 0h2"/>',
@@ -115,13 +115,13 @@ function itinerary() {
   <div class="route-strip">${icon('pin')} <span>Incheon <b>·</b> Nami Island <b>·</b> Mt. Sorak <b>·</b> Seoul</span></div>
   ${meetingCard()}
   <section aria-labelledby="itinerary-title">
-    <div class="section-title"><div><h2 id="itinerary-title">Rencana perjalanan</h2><p>Ketuk hari untuk melihat detailnya.</p></div><span class="tile peach">${icon('calendar')}</span></div>
+    <div class="section-title"><div><h2 id="itinerary-title">Rencana perjalanan</h2><p>Ketuk hari untuk melihat detailnya. Durasi perjalanan darat dan feri adalah perkiraan kasar. Macet, antrean, dan pemberhentian bisa menambah waktu.</p></div><span class="tile peach">${icon('calendar')}</span></div>
     <div class="day-jump" aria-label="Lompat ke hari">${days.map((day,i) => `<button type="button" data-jump="${i}"><span>${day.weekday}</span><strong>${day.date}</strong></button>`).join('')}</div>
     <div class="day-list">${days.map((day,i) => `<details class="card day" id="day-${i}" data-day="${i}" ${collapse.has(i) || (!collapse.has('initial') && i === 0) ? 'open' : ''}>
       <summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(day.icon)}</span><span class="row-copy"><small>HARI ${String(i+1).padStart(2,'0')} · ${day.date}</small><strong>${day.title}</strong><span>${day.subtitle}</span></span><span class="arrow">${icon('chevron')}</span></summary>
       <div class="detail-body">
-        ${day.flight ? `<div class="flight">${icon('plane')}<div><strong>${day.flight[0]}</strong><span>${day.flight[1]}</span></div></div>` : ''}
-        <ol class="stops">${day.stops.map(([title,desc]) => `<li><strong>${title}</strong><p>${desc}</p></li>`).join('')}</ol>
+        ${day.flight ? `<div class="flight">${icon('plane')}<div><strong>${day.flight[0]}</strong><span>${day.flight[1]}</span><span>Durasi terjadwal · ${day.flight[2]}</span></div></div>` : ''}
+        <ol class="stops">${day.stops.map(([title,desc,duration]) => `<li><strong>${title}</strong><p>${desc}</p>${duration ? `<p class="travel-time">${icon('clock')} <span>${duration}</span></p>` : ''}</li>`).join('')}</ol>
         ${day.hotel ? hotelDetails(hotels[day.hotel]) : ''}
         ${day.transport ? `<p class="meal">${day.transport}</p>` : ''}
         ${day.meal ? '<p class="meal">Termasuk makan pagi (MP)</p>' : ''}

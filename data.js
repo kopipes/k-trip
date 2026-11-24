@@ -13,43 +13,43 @@ export const hotels = {
 };
 
 export const days = [
-  { date:'29 Nov', weekday:'Min', icon:'plane', title:'Jakarta → Incheon', subtitle:'Penerbangan malam menuju Korea', flight:['GA 878 · Garuda Indonesia','CGK 23.30 WIB → ICN 08.30 KST (+1)'], stops:[
+  { date:'29 Nov', weekday:'Min', icon:'plane', title:'Jakarta → Incheon', subtitle:'Penerbangan malam menuju Korea', flight:['GA 878 · Garuda Indonesia','CGK 23.30 WIB → ICN 08.30 KST (+1)', '7 jam'], stops:[
     ['Bandara Soekarno–Hatta','Berkumpul pukul 20.00 WIB di Terminal 3, depan counter Bakerzin / Fore, untuk penerbangan langsung ke Incheon dengan Garuda Indonesia. Tiba keesokan paginya, Senin, 30 November, pukul 08.30 waktu Korea.']
   ] },
   { date:'30 Nov', weekday:'Sen', icon:'leaf', title:'Incheon → Pocheon → Nami → Mt. Sorak', subtitle:'Air terjun, ferry, dan suasana pegunungan', stops:[
-    ['Incheon → Pocheon','Tiba pukul 08.30 waktu Korea, lalu berangkat dengan bus menuju kawasan Pocheon.'],
+    ['Incheon → Pocheon','Tiba pukul 08.30 waktu Korea, lalu berangkat dengan bus menuju kawasan Pocheon.', 'Bus bandara → Bidulginang Falls: sekitar 2–3 jam, di luar waktu imigrasi dan ambil bagasi.'],
     ['Bidulginang Falls','Air terjun di antara tebing batu vulkanik dengan suasana tenang. Ada kesempatan untuk berfoto di kawasan air terjun.'],
-    ['Nami Island','Menyeberang dengan feri ke Nami Island. Pulau ini dikenal dengan jalan setapak di antara deretan pohon dan sering muncul di drama Korea.'],
-    ['Seoraksan National Park','Perjalanan dilanjutkan menuju kawasan Seoraksan untuk menikmati suasana pegunungan. Rombongan bermalam di Chungchoho Best Hotel, Sokcho.']
+    ['Nami Island','Menyeberang dengan feri ke Nami Island. Pulau ini dikenal dengan jalan setapak di antara deretan pohon dan sering muncul di drama Korea.', 'Bus dari Bidulginang Falls ke dermaga Gapyeong: sekitar 1–1½ jam. Feri ke Nami: sekitar 5–10 menit, di luar antrean.'],
+    ['Seoraksan National Park','Perjalanan dilanjutkan menuju kawasan Seoraksan untuk menikmati suasana pegunungan. Rombongan bermalam di Chungchoho Best Hotel, Sokcho.', 'Bus dari dermaga Gapyeong ke hotel di Sokcho: sekitar 2–3 jam.']
   ], hotel:'sokcho', transport:'Bus rombongan' },
   { date:'1 Des', weekday:'Sel', icon:'mountain', title:'Mt. Sorak → Seoul', subtitle:'Cable car, kelas kimbap, dan belanja', meal:true, stops:[
     ['Seoraksan National Park','Pagi hari, jelajahi taman nasional dan naik kereta gantung untuk melihat panorama pegunungan Seoraksan.'],
     ['Gwongeumseong Fortress','Kunjungan ke benteng di kawasan Seoraksan.'],
     ['Sinheungsa Temple','Kunjungi Sinheungsa Temple dan lihat patung Buddha besar yang menjadi salah satu ikon kawasan Seoraksan.'],
-    ['Kelas membuat kimbap','Ikuti kegiatan membuat kimbap setelah rangkaian kunjungan di Seoraksan, dalam perjalanan menuju Seoul.'],
+    ['Kelas membuat kimbap','Ikuti kegiatan membuat kimbap setelah rangkaian kunjungan di Seoraksan, dalam perjalanan menuju Seoul.', 'Bus kawasan Seoraksan → Seoul: sekitar 2½–4 jam waktu berkendara. Durasi kelas dan singgah dihitung terpisah.'],
     ['Cheonggyecheon Stream','Rute rombongan melewati Cheonggyecheon Stream, aliran sungai di tengah Seoul.'],
     ['Dongdaemun','Singgah untuk berbelanja di kawasan Dongdaemun sebelum bermalam di Seoul.']
   ], hotel:'seoul', transport:'Bus rombongan' },
   { date:'2 Des', weekday:'Rab', icon:'building', title:'Seoul · Hanok & Hongdae', subtitle:'Desa tradisional, COEX, dan Hongdae', meal:true, stops:[
     ['Ginseng & Cosmetic Shopping Tour','Rangkaian hari ini dimulai dengan tur belanja ginseng dan kosmetik Korea.'],
     ['Eunpyeong Hanok Village','Lihat rumah tradisional Korea (hanok) di Eunpyeong. Kawasan ini mempertemukan arsitektur tradisional dengan suasana kota modern di sekitarnya.'],
-    ['Itaewon Mosque','Kunjungan ke masjid di Itaewon.'],
-    ['COEX Mall & Starfield Library','Kunjungi pusat belanja COEX Mall, termasuk Starfield Library yang berada di dalam kompleksnya.'],
-    ['Gangnam Style Statue','Singgah untuk berfoto di patung Gangnam Style.'],
-    ['Hongdae','Malam hari, kunjungi Hongdae yang dikenal dengan suasana anak muda Seoul.']
+    ['Itaewon Mosque','Kunjungan ke masjid di Itaewon.', 'Bus dari Eunpyeong Hanok Village: sekitar 45–75 menit.'],
+    ['COEX Mall & Starfield Library','Kunjungi pusat belanja COEX Mall, termasuk Starfield Library yang berada di dalam kompleksnya.', 'Bus dari Itaewon Mosque: sekitar 25–50 menit.'],
+    ['Gangnam Style Statue','Singgah untuk berfoto di patung Gangnam Style.', 'Jalan kaki dari area Starfield Library: sekitar 5–15 menit.'],
+    ['Hongdae','Malam hari, kunjungi Hongdae yang dikenal dengan suasana anak muda Seoul.', 'Bus dari COEX: sekitar 45–90 menit, tergantung lalu lintas sore atau malam.']
   ], hotel:'seoul', transport:'Bus rombongan' },
   { date:'3 Des', weekday:'Kam', icon:'camera', title:'Seoul · Hanbok & N Seoul Tower', subtitle:'Istana, panorama kota, dan Myeongdong', meal:true, stops:[
     ['Amethyst Showcase & Red Pine Tree Shop','Awali hari dengan tur belanja ke Amethyst Showcase dan Red Pine Tree Shop.'],
     ['Gyeongbokgung Palace','Coba mengenakan hanbok, pakaian tradisional Korea, saat berkunjung ke Gyeongbokgung Palace.'],
     ['Blue House','Melewati Blue House.'],
-    ['N Seoul Tower','Nikmati panorama Seoul dari kawasan N Seoul Tower dan lihat area gembok cinta (love lock).'],
+    ['N Seoul Tower','Nikmati panorama Seoul dari kawasan N Seoul Tower dan lihat area gembok cinta (love lock).', 'Dari kawasan Blue House ke area Namsan: sekitar 20–45 menit berkendara. Akses dari titik turun ke menara dihitung terpisah.'],
     ['Myeongdong & duty free','Tutup rangkaian hari dengan belanja di Myeongdong dan singgah di toko bebas bea (duty free).']
   ], hotel:'seoul', transport:'Bus rombongan' },
   { date:'4 Des', weekday:'Jum', icon:'heart', title:'Seoul · Hari bebas', subtitle:'Jelajahi Seoul sesuai rencanamu', meal:true, stops:[
     ['Seoul','Hari ini tidak ada bus rombongan atau pemandu. Kamu bebas mengatur rute sendiri, misalnya belanja, mampir ke beberapa kafe, atau mencari merchandise K-pop.']
   ], hotel:'seoul', transport:'Tanpa bus rombongan' },
-  { date:'5 Des', weekday:'Sab', icon:'plane', title:'Seoul → Incheon → Jakarta', subtitle:'Penerbangan pulang ke Jakarta', meal:true, flight:['GA 879 · Garuda Indonesia','ICN 10.35 KST → CGK 16.00 WIB'], stops:[
-    ['Incheon International Airport','Berangkat dari Seoul menuju Incheon International Airport. Garuda GA 879 berangkat pukul 10.35 waktu Korea dan dijadwalkan tiba di Jakarta pukul 16.00 WIB.'],
+  { date:'5 Des', weekday:'Sab', icon:'plane', title:'Seoul → Incheon → Jakarta', subtitle:'Penerbangan pulang ke Jakarta', meal:true, flight:['GA 879 · Garuda Indonesia','ICN 10.35 KST → CGK 16.00 WIB', '7 jam 25 menit'], stops:[
+    ['Incheon International Airport','Berangkat dari Seoul menuju Incheon International Airport. Garuda GA 879 berangkat pukul 10.35 waktu Korea dan dijadwalkan tiba di Jakarta pukul 16.00 WIB.', 'Dari Bridge Hotel ke bandara: sekitar 50–90 menit berkendara, di luar waktu check-in dan pemeriksaan.'],
     ['Jakarta → J Town','Dokumen menyebut penerbangan lanjutan ke J Town setelah tiba di Jakarta. Nomor penerbangan, jam, dan nama kota lengkap belum dicantumkan.']
   ], details:['Jam berangkat dari hotel','Detail penerbangan lanjutan'] },
 ];

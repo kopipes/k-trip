@@ -14,43 +14,43 @@ export const hotels = {
 
 export const days = [
   { date:'29 Nov', weekday:'Min', icon:'plane', title:'Jakarta → Incheon', subtitle:'Penerbangan malam menuju Korea', flight:['GA 878 · Garuda Indonesia','CGK 23.30 WIB → ICN 08.30 KST (+1)'], stops:[
-    ['Bandara Soekarno–Hatta','Berkumpul pukul 20.00 WIB di Terminal 3, depan counter Bakerzin / Fore, untuk penerbangan langsung menuju Incheon.']
+    ['Bandara Soekarno–Hatta','Berkumpul pukul 20.00 WIB di Terminal 3, depan counter Bakerzin / Fore, untuk penerbangan langsung ke Incheon dengan Garuda Indonesia. Tiba keesokan paginya, Senin, 30 November, pukul 08.30 waktu Korea.']
   ] },
   { date:'30 Nov', weekday:'Sen', icon:'leaf', title:'Incheon → Pocheon → Nami → Mt. Sorak', subtitle:'Air terjun, ferry, dan suasana pegunungan', stops:[
-    ['Incheon → Pocheon','Setelah mendarat, perjalanan dilanjutkan ke Pocheon.'],
-    ['Bidulginang Falls','Air terjun di antara tebing batu vulkanik.'],
-    ['Nami Island','Naik ferry ke pulau yang terkenal dengan deretan pohon dan lokasi drama Korea.'],
-    ['Seoraksan National Park','Menuju area Seoraksan untuk bermalam.']
+    ['Incheon → Pocheon','Tiba pukul 08.30 waktu Korea, lalu berangkat dengan bus menuju kawasan Pocheon.'],
+    ['Bidulginang Falls','Air terjun di antara tebing batu vulkanik dengan suasana tenang. Ada kesempatan untuk berfoto di kawasan air terjun.'],
+    ['Nami Island','Menyeberang dengan feri ke Nami Island. Pulau ini dikenal dengan jalan setapak di antara deretan pohon dan sering muncul di drama Korea.'],
+    ['Seoraksan National Park','Perjalanan dilanjutkan menuju kawasan Seoraksan untuk menikmati suasana pegunungan. Rombongan bermalam di Chungchoho Best Hotel, Sokcho.']
   ], hotel:'sokcho', transport:'Bus rombongan' },
   { date:'1 Des', weekday:'Sel', icon:'mountain', title:'Mt. Sorak → Seoul', subtitle:'Cable car, kelas kimbap, dan belanja', meal:true, stops:[
-    ['Seoraksan National Park','Naik cable car untuk melihat panorama pegunungan.'],
+    ['Seoraksan National Park','Pagi hari, jelajahi taman nasional dan naik kereta gantung untuk melihat panorama pegunungan Seoraksan.'],
     ['Gwongeumseong Fortress','Kunjungan ke benteng di kawasan Seoraksan.'],
-    ['Sinheungsa Temple','Kunjungan ke kuil dan patung Buddha besar.'],
-    ['Kelas membuat kimbap','Pengalaman membuat kimbap dalam rangkaian perjalanan menuju Seoul.'],
-    ['Cheonggyecheon Stream','Melewati aliran sungai kota.'],
-    ['Dongdaemun','Berbelanja di kawasan Dongdaemun.']
+    ['Sinheungsa Temple','Kunjungi Sinheungsa Temple dan lihat patung Buddha besar yang menjadi salah satu ikon kawasan Seoraksan.'],
+    ['Kelas membuat kimbap','Ikuti kegiatan membuat kimbap setelah rangkaian kunjungan di Seoraksan, dalam perjalanan menuju Seoul.'],
+    ['Cheonggyecheon Stream','Rute rombongan melewati Cheonggyecheon Stream, aliran sungai di tengah Seoul.'],
+    ['Dongdaemun','Singgah untuk berbelanja di kawasan Dongdaemun sebelum bermalam di Seoul.']
   ], hotel:'seoul', transport:'Bus rombongan' },
   { date:'2 Des', weekday:'Rab', icon:'building', title:'Seoul · Hanok & Hongdae', subtitle:'Desa tradisional, COEX, dan Hongdae', meal:true, stops:[
-    ['Ginseng & Cosmetic Shopping Tour','Tur belanja ginseng dan kosmetik.'],
-    ['Eunpyeong Hanok Village','Jelajahi desa tradisional Korea.'],
+    ['Ginseng & Cosmetic Shopping Tour','Rangkaian hari ini dimulai dengan tur belanja ginseng dan kosmetik Korea.'],
+    ['Eunpyeong Hanok Village','Lihat rumah tradisional Korea (hanok) di Eunpyeong. Kawasan ini mempertemukan arsitektur tradisional dengan suasana kota modern di sekitarnya.'],
     ['Itaewon Mosque','Kunjungan ke masjid di Itaewon.'],
-    ['COEX Mall & Starfield Library','Singgah di pusat belanja dan perpustakaan ikonik.'],
-    ['Gangnam Style Statue','Berhenti untuk berfoto.'],
-    ['Hongdae','Jelajahi kawasan Hongdae pada malam hari.']
+    ['COEX Mall & Starfield Library','Kunjungi pusat belanja COEX Mall, termasuk Starfield Library yang berada di dalam kompleksnya.'],
+    ['Gangnam Style Statue','Singgah untuk berfoto di patung Gangnam Style.'],
+    ['Hongdae','Malam hari, kunjungi Hongdae yang dikenal dengan suasana anak muda Seoul.']
   ], hotel:'seoul', transport:'Bus rombongan' },
   { date:'3 Des', weekday:'Kam', icon:'camera', title:'Seoul · Hanbok & N Seoul Tower', subtitle:'Istana, panorama kota, dan Myeongdong', meal:true, stops:[
-    ['Amethyst Showcase & Red Pine Tree Shop','Tur belanja amethyst dan produk red pine.'],
-    ['Gyeongbokgung Palace','Pengalaman memakai hanbok di istana.'],
+    ['Amethyst Showcase & Red Pine Tree Shop','Awali hari dengan tur belanja ke Amethyst Showcase dan Red Pine Tree Shop.'],
+    ['Gyeongbokgung Palace','Coba mengenakan hanbok, pakaian tradisional Korea, saat berkunjung ke Gyeongbokgung Palace.'],
     ['Blue House','Melewati Blue House.'],
-    ['N Seoul Tower','Lihat panorama kota dan area love lock.'],
-    ['Myeongdong & duty free','Berbelanja di Myeongdong dan toko duty free.']
+    ['N Seoul Tower','Nikmati panorama Seoul dari kawasan N Seoul Tower dan lihat area gembok cinta (love lock).'],
+    ['Myeongdong & duty free','Tutup rangkaian hari dengan belanja di Myeongdong dan singgah di toko bebas bea (duty free).']
   ], hotel:'seoul', transport:'Bus rombongan' },
   { date:'4 Des', weekday:'Jum', icon:'heart', title:'Seoul · Hari bebas', subtitle:'Jelajahi Seoul sesuai rencanamu', meal:true, stops:[
-    ['Seoul','Hari bebas tanpa bus dan pemandu. Ide dari itinerary meliputi belanja, café hopping, dan mencari merchandise K-pop.']
+    ['Seoul','Hari ini tidak ada bus rombongan atau pemandu. Kamu bebas mengatur rute sendiri, misalnya belanja, mampir ke beberapa kafe, atau mencari merchandise K-pop.']
   ], hotel:'seoul', transport:'Tanpa bus rombongan' },
   { date:'5 Des', weekday:'Sab', icon:'plane', title:'Seoul → Incheon → Jakarta', subtitle:'Penerbangan pulang ke Jakarta', meal:true, flight:['GA 879 · Garuda Indonesia','ICN 10.35 KST → CGK 16.00 WIB'], stops:[
-    ['Incheon International Airport','Berangkat dari Seoul menuju bandara untuk penerbangan ke Jakarta.'],
-    ['Jakarta → J Town','PDF menyebut penerbangan lanjutan ke J Town.']
+    ['Incheon International Airport','Berangkat dari Seoul menuju Incheon International Airport. Garuda GA 879 berangkat pukul 10.35 waktu Korea dan dijadwalkan tiba di Jakarta pukul 16.00 WIB.'],
+    ['Jakarta → J Town','Dokumen menyebut penerbangan lanjutan ke J Town setelah tiba di Jakarta. Nomor penerbangan, jam, dan nama kota lengkap belum dicantumkan.']
   ], details:['Jam berangkat dari hotel','Detail penerbangan lanjutan'] },
 ];
 
@@ -67,18 +67,49 @@ export const packing = [
 ];
 
 export const guide = [
-  ['leaf','Cuaca & pakaian','Panduan trip memperkirakan suhu −2 hingga 12°C dan sesekali hujan. Bawa pakaian berlapis, jaket hangat, sepatu nyaman, dan payung lipat. Topi, sunscreen, dan lotion juga disarankan. Cek prakiraan aktual menjelang berangkat.'],
-  ['clock','Zona waktu','Korea Standard Time (KST) 2 jam lebih cepat dari WIB. Pukul 10.00 WIB sama dengan 12.00 KST. Jam penerbangan ditampilkan sesuai zona waktu masing-masing bandara.'],
-  ['wallet','Uang & biaya pribadi','Mata uangnya won Korea (KRW). Panduan menyarankan menyiapkan KRW dari Indonesia atau membawa USD untuk ditukar. Referensi panduan per 27 Oktober 2026: 1 KRW ≈ Rp13,66, 1 USD ≈ 1.322 KRW atau Rp18.062. Cek kurs aktual sebelum menukar. Laundry, telepon, minibar, dan tur tambahan menjadi biaya pribadi. Lunasi biaya hotel sebelum check-out.'],
-  ['bag','Bagasi & kabin','Panduan Pergi.com mencantumkan bagasi tercatat 30 kg dan satu tas kabin 7 kg untuk ekonomi Garuda. Batas tas kabin mencakup gagang dan roda. Cek jatah pada tiket. Gunakan koper berkunci dengan roda dan simpan nama serta alamat pemilik di dalam koper. Cairan atau gel kabin maksimal 100 ml per kemasan dalam satu kantong bening tertutup maksimal 1 L. Biaya kelebihan bagasi ditanggung peserta.'],
-  ['bolt','Power bank & barang terbatas','Panduan operator menyebut power bank hanya di kabin, sekitar maksimum 20.000 mAh, serta dilarang digunakan atau diisi daya selama penerbangan. Panduan juga menyebut aerosol dilarang di kabin dan bagasi tercatat, serta melarang tas AirWheel atau tas berbaterai tanam. Gunting kecil, cutter, dan peralatan manikur tajam dilarang di kabin. Cek kebijakan Garuda terbaru sebelum mengemas barang.'],
-  ['heart','Makanan & obat','Makanan tur mengikuti itinerary. Panduan mengingatkan peserta agar menghindari membawa produk pertanian atau peternakan, seperti daging, rendang, abon, susu, keju, buah, kacang, dan ikan, serta sisa makanan pesawat. Cek aturan karantina Korea untuk barang bawaan. Bawa obat pribadi dan resep bila diperlukan.'],
-  ['globe','Internet & peta','Siapkan roaming, eSIM, atau pocket Wi-Fi. Simpan alamat hotel dari bagian Hotel trip untuk berjaga-jaga saat mencari jalan pulang. Naver Map dan KakaoMap membantu mencari rute jalan kaki dan transportasi.'],
-  ['bolt','Listrik & hotel','Korea memakai 220 V dengan colokan tipe C dan F. Panduan menyebut kamar bisa lebih kecil, fasilitas lebih sederhana, dan beberapa hotel mungkin tidak menyediakan pendingin ruangan. Siapkan toiletries pribadi dan bidet portabel bila diinginkan.'],
-  ['building','Permintaan kamar','Tipe ranjang, kamar berdekatan, preferensi merokok, dan extra bed tergantung ketersediaan saat check-in. Panduan menyarankan meminta extra bed jauh hari melalui operator.'],
-  ['shield','Keamanan & imigrasi','Simpan paspor, uang, dan barang berharga di tas kabin. Hindari membawa perhiasan berlebihan dan meninggalkan barang berharga di bus. Bawa salinan paspor dan dokumen perjalanan, lalu tinggalkan satu set salinan di rumah untuk keadaan darurat. Petugas imigrasi menentukan izin masuk saat tiba, termasuk bagi pemegang visa. Menurut Pergi.com, jika ditolak masuk, biaya kepulangan ditanggung peserta dan biaya tur tidak dikembalikan.'],
-  ['wallet','Tip tur','Panduan Pergi.com mencantumkan USD 70 per peserta sebagai panduan tip layanan lokal untuk trip ini.'],
-  ['train','Transportasi saat hari bebas','Untuk subway atau bus, pertimbangkan kartu transportasi T-money. Siapkan opsi rute pulang dan cek jam perjalanan terakhir di aplikasi peta.'],
+  ['leaf','Cuaca & pakaian',[
+    'Panduan Pergi.com memperkirakan suhu −2 hingga 12°C selama periode trip, dengan kemungkinan hujan sesekali. Cek prakiraan aktual menjelang berangkat.',
+    'Siapkan pakaian hangat yang bisa dipakai berlapis, termasuk jaket atau sweater. Pilih sepatu nyaman dengan tumit rendah karena banyak berjalan.',
+    'Bawa payung lipat untuk antisipasi hujan. Panduan juga menyarankan topi, sunscreen, serta losion tangan dan badan.'
+  ]],
+  ['clock','Zona waktu','Korea lebih cepat 2 jam dari WIB. Contohnya, pukul 10.00 WIB di Jakarta sama dengan pukul 12.00 KST di Seoul. Jam keberangkatan dan kedatangan di itinerary memakai waktu setempat masing-masing bandara.'],
+  ['wallet','Uang & biaya pribadi',[
+    'Mata uangnya won Korea (KRW). Pergi.com menyarankan menyiapkan won dari Indonesia. Kamu juga bisa membawa dolar AS dan menukarnya dengan kurs yang berlaku di Korea.',
+    'Acuan panduan per 27 Oktober 2026: 1 KRW ≈ Rp13,66, 1 USD ≈ 1.322 KRW, dan 1 USD ≈ Rp18.062. Lihat tabel di atas untuk memperkirakan harga dalam rupiah.',
+    'Laundry, telepon, minibar, dan tur tambahan menjadi biaya pribadi. Selesaikan tagihan hotel di kasir sebelum check-out.'
+  ]],
+  ['bag','Bagasi & kabin',[
+    'Panduan mencantumkan jatah ekonomi Garuda sebesar 30 kg untuk bagasi tercatat dan satu tas kabin maksimal 7 kg, termasuk gagang dan roda. Cocokkan dengan tiket. Biaya kelebihan berat ditanggung peserta.',
+    'Gunakan koper berkunci dan beroda. Empat roda disarankan. Simpan nama dan alamat pemilik di dalam koper.',
+    'Simpan paspor, uang, dan barang berharga di tas kabin. Bawa juga satu set baju ganti untuk berjaga-jaga bila koper terlambat atau penerbangan tertunda atau batal. Masukkan barang kecil ke tas sebelum pemeriksaan keamanan.'
+  ]],
+  ['bolt','Cairan, power bank & barang terbatas',[
+    'Untuk kabin, cairan dan gel maksimal 100 ml per kemasan. Masukkan semuanya ke satu kantong transparan yang bisa ditutup dengan kapasitas maksimal 1 liter.',
+    'Panduan Pergi.com menyebut aerosol dilarang di kabin dan bagasi tercatat. Simpan benda tajam seperti pisau lipat, cutter, gunting kecil, gunting kuku, dan alat manikur tajam di luar tas kabin. Panduan juga melarang tas AirWheel dan tas dengan baterai tanam.',
+    'Panduan menyebut power bank hanya boleh di kabin, dengan batas sekitar 20.000 mAh, serta dilarang digunakan atau diisi daya selama penerbangan. Cek ketentuan Garuda terbaru sebelum mengemas barang.'
+  ]],
+  ['heart','Makanan & obat',[
+    'Makanan dari tur mengikuti jadwal operator. Label MP di itinerary berarti makan pagi.',
+    'Pergi.com meminta peserta menghindari membawa produk pertanian dan peternakan, seperti daging, rendang, abon, susu, keju, buah, kacang, ikan teri atau ikan lainnya, serta sisa makanan dari pesawat. Cek ketentuan karantina Korea untuk barang bawaanmu.',
+    'Bawa obat pribadi yang biasa kamu gunakan. Obat yang cocok belum tentu mudah ditemukan di Korea, dan beberapa obat membutuhkan resep. Bawa salinan resep bila perlu.'
+  ]],
+  ['globe','Internet & peta',[
+    'Ponsel 4G/5G pada umumnya bisa dipakai di Korea. Kalau memilih roaming, hubungi operator seluler sebelum berangkat untuk mengaktifkannya. Pilihan lain adalah eSIM atau sewa pocket Wi-Fi.',
+    'Simpan alamat hotel dari bagian Hotel trip untuk berjaga-jaga. Naver Map dan KakaoMap bisa membantu mencari rute jalan kaki, subway, dan bus.'
+  ]],
+  ['bolt','Listrik & hotel',[
+    'Korea memakai listrik 220 V dengan colokan tipe C atau F. Keduanya memakai dua pin bulat. Cek colokan perangkat sebelum memutuskan membawa adaptor.',
+    'Pergi.com menyebut kamar hotel di Korea bisa lebih kecil dan fasilitasnya lebih sederhana. Beberapa hotel mungkin tidak menyediakan pendingin ruangan.',
+    'Bawa sikat gigi, pasta gigi, sisir, dan perlengkapan mandi yang biasa dipakai. Panduan juga menyarankan bidet portabel karena banyak toilet tidak memiliki bidet.'
+  ]],
+  ['building','Permintaan kamar','Kamar terhubung, bersebelahan, atau berhadapan, pilihan ranjang double atau twin, dan kamar merokok atau bebas rokok bergantung pada ketersediaan saat check-in, meski sudah diminta saat reservasi. Untuk ranjang tambahan, sampaikan permintaan jauh hari melalui operator. Ketersediaannya tetap dikonfirmasi saat check-in.'],
+  ['shield','Keamanan & imigrasi',[
+    'Hindari membawa perhiasan berlebihan dan jangan tinggalkan barang berharga di bus. Simpan paspor, uang, dan barang berharga di tas kabin.',
+    'Siapkan salinan paspor dan dokumen perjalanan. Bawa satu set dan tinggalkan satu set di rumah agar mudah diakses jika dokumen hilang.',
+    'Izin masuk diputuskan oleh petugas imigrasi saat tiba, termasuk bagi pemegang visa. Menurut ketentuan Pergi.com, peserta yang ditolak masuk harus kembali pada hari itu dengan biaya sendiri, dan biaya tur tidak dikembalikan.'
+  ]],
+  ['wallet','Tip tur','Pergi.com mencantumkan USD 70 per peserta sebagai panduan tip layanan lokal selama perjalanan ini.'],
+  ['train','Transportasi saat hari bebas','Pada 4 Desember, peserta menjelajahi Seoul tanpa bus dan pemandu rombongan. Kalau menggunakan subway atau bus, pertimbangkan kartu T-money. Simpan rute kembali ke hotel dan cek jam keberangkatan terakhir.'],
   ['phone','Bantuan darurat','Di Korea, hubungi 112 untuk polisi, 119 untuk kebakaran atau ambulans, atau 1330 untuk bantuan wisata Korea Travel Hotline.']
 ];
 

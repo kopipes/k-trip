@@ -175,3 +175,10 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .travel-time svg { width:15px; height:15px; margin-top:2px; }
 .top-actions { display:flex; align-items:center; gap:7px; }
 #view-counter { height:16px; max-width:72px; }
+#note-form fieldset { min-width:0; margin:0; padding:0; border:0; }
+#note-files { margin-bottom:6px; }
+#note-text + label { margin-top:10px; }
+.attachments { list-style:none; padding:0; margin:6px 0 0; }
+.attachments li { display:flex; align-items:center; justify-content:space-between; gap:6px; overflow-wrap:anywhere; }
+.attachments button { min-width:0; text-align:left; overflow-wrap:anywhere; }
+.attachments svg { width:15px; height:15px; }

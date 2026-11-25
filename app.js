@@ -174,6 +174,69 @@ function refreshChecklist() {
   updateProgress(groups);
 }
 
+const attachmentLimit = 10 * 1024 * 1024;
+let savingNote = false;
+
+async function attachmentStore(mode, operation) {
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open('k-trip-2026-attachments', 1);
+    request.onupgradeneeded = () => request.result.createObjectStore('files');
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  try {
+    return await new Promise((resolve, reject) => {
+      const transaction = db.transaction('files', mode);
+      transaction.oncomplete = () => resolve(request?.result);
+      transaction.onabort = () => reject(transaction.error);
+      const request = operation(transaction.objectStore('files'));
+    });
+  } finally {
+    db.close();
+  }
+}
+
+async function deleteAttachments(files) {
+  if (!files.length) return;
+  try {
+    await attachmentStore('readwrite', store => files.forEach(file => store.delete(file.id)));
+  } catch {
+    setNoteStatus('Lampiran gagal dibersihkan dari penyimpanan browser.');
+  }
+}
+
+function setNoteStatus(message) {
+  const status = main.querySelector('#note-status');
+  if (status) status.textContent = message;
+}
+
+function attachmentList(files, editing = false) {
+  if (!files.length) return '';
+  return `<ul class="attachments">${files.map(file => `<li>${editing ?
+    `<span>${escape(file.name)}</span><button type="button" class="quiet-button" data-detach="${escape(file.id)}" aria-label="Lepas ${escape(file.name)}">Lepas</button>` :
+    `<button type="button" class="quiet-button" data-download="${escape(file.id)}" aria-label="Unduh ${escape(file.name)}">${icon('link')} ${escape(file.name)}</button>`
+  }</li>`).join('')}</ul>`;
+}
+
+async function downloadAttachment(id) {
+  const file = entries.flatMap(entry => entry.attachments ?? []).find(item => item.id === id);
+  if (!file) return;
+  try {
+    const blob = await attachmentStore('readonly', store => store.get(id));
+    if (!blob) throw new Error('Attachment missing');
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = file.name;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 30_000);
+  } catch {
+    setNoteStatus('File tidak bisa dibuka dari penyimpanan browser ini.');
+  }
+}
+
 function noteList() {
   const query = noteQuery.trim().toLocaleLowerCase('id');
   const matches = entries.filter(entry =>
@@ -186,7 +249,8 @@ function noteList() {
     <h2>${escape(entry.title)}</h2>
     <div class="note-labels">${entry.category ? `<span>${escape(entry.category)}</span>` : ''}
     ${entry.tags.map(tag => `<span class="tag">#${escape(tag)}</span>`).join('')}</div>
-    <p>${escape(entry.body)}</p>
+    ${entry.body ? `<p>${escape(entry.body)}</p>` : ''}
+    ${attachmentList(entry.attachments ?? [])}
     <div class="note-actions"><button class="quiet-button" type="button" data-edit-note="${escape(entry.id)}">Edit</button><button class="quiet-button" type="button" data-remove-note="${escape(entry.id)}">Hapus</button></div>
   </article>`).join('');
 }
@@ -195,11 +259,16 @@ function renderNoteEditor(focus = false) {
   const editor = main.querySelector('#note-editor');
   editor.innerHTML = draft ? `<form id="note-form" class="card note-card entry-form">
     <h2>${draft.id ? 'Edit catatan' : 'Catatan baru'}</h2>
+    <fieldset ${savingNote ? 'disabled' : ''}>
     <label for="note-title">Judul</label><input id="note-title" name="title" required maxlength="100" value="${escape(draft.title)}">
     <label for="note-category">Kategori</label><input id="note-category" name="category" list="note-categories" maxlength="45" value="${escape(draft.category)}" placeholder="Contoh: Kuliner">
     <label for="note-tags">Tag <small>(pisahkan dengan koma)</small></label><input id="note-tags" name="tags" maxlength="180" value="${escape(draft.tags)}" placeholder="Contoh: Seoul, hari 6">
-    <label for="note-text">Isi catatan</label><textarea id="note-text" name="body" rows="5" required>${escape(draft.body)}</textarea>
-    <div class="note-actions"><button type="submit" class="primary">Simpan catatan</button><button type="button" class="quiet-button" data-cancel-note>Batal</button></div>
+    <label for="note-text">Isi catatan</label><textarea id="note-text" name="body" rows="5">${escape(draft.body)}</textarea>
+    <label for="note-files">Lampiran <small>(maks. 10 MB per file)</small></label>
+    <input id="note-files" type="file" multiple>
+    <div id="draft-files">${attachmentList(draft.attachments,true)}</div>
+    <div class="note-actions"><button type="submit" class="primary" ${savingNote ? 'disabled' : ''}>Simpan catatan</button><button type="button" class="quiet-button" data-cancel-note>Batal</button></div>
+    </fieldset>
   </form>` : '<button type="button" class="primary add-note" data-add-note>+ Catatan baru</button>';
   if (focus) editor.querySelector('input,button').focus();
 }
@@ -217,7 +286,7 @@ function refreshNotes() {
 
 function notes() {
   return `${heading('note','Catatan','Temukan catatan dengan mencari judul, isi, kategori, atau tag.')}
-  ${privacyNotice('Catatan ini untukmu', 'Catatanmu tersimpan di tempat kamu membuka web ini.')}
+  ${privacyNotice('Catatan ini untukmu', 'Catatan dan lampiran tersimpan di tempat kamu membuka web ini.')}
   <div id="note-editor"></div><p id="note-status" class="action-status" role="status"></p>
   <div class="card entry-form filters"><div><label for="note-search">Cari catatan</label><input id="note-search" type="search" value="${escape(noteQuery)}" placeholder="Judul, isi, atau tag"></div>
   <div><label for="category-filter">Kategori</label><select id="category-filter"></select><datalist id="note-categories"></datalist></div></div>
@@ -303,6 +372,17 @@ main.addEventListener('click', event => {
     if (storeItems(next,'Item dihapus.')) main.querySelector('#item-name').focus();
   }
 
+  const download = event.target.closest('[data-download]');
+  if (download) void downloadAttachment(download.dataset.download);
+  if (savingNote) return;
+
+  const detach = event.target.closest('[data-detach]');
+  if (detach) {
+    draft.attachments = draft.attachments.filter(file => file.id !== detach.dataset.detach);
+    main.querySelector('#draft-files').innerHTML = attachmentList(draft.attachments,true);
+    main.querySelector('#note-files').focus();
+  }
+
   const editNote = event.target.closest('[data-edit-note]');
   const addNote = event.target.closest('[data-add-note]');
   const cancelNote = event.target.closest('[data-cancel-note]');
@@ -310,7 +390,7 @@ main.addEventListener('click', event => {
     if (draft && !cancelNote && !window.confirm('Ganti catatan yang sedang ditulis?')) return;
     const entry = entries.find(item => item.id === editNote?.dataset.editNote);
     draft = cancelNote ? null : entry ?
-      {...entry,tags:entry.tags.join(', ')} : {title:'',category:'',tags:'',body:''};
+      {...entry,tags:entry.tags.join(', '),attachments:[...(entry.attachments ?? [])]} : {title:'',category:'',tags:'',body:'',attachments:[]};
     renderNoteEditor(true);
     main.querySelector('#note-status').textContent = '';
   }
@@ -318,7 +398,9 @@ main.addEventListener('click', event => {
   const removeNote = event.target.closest('[data-remove-note]');
   if (removeNote && window.confirm('Hapus catatan ini?')) {
     const {removeNote:id} = removeNote.dataset;
+    const removed = entries.find(entry => entry.id === id);
     if (!storeNotes(entries.filter(entry => entry.id !== id),'Catatan dihapus.')) return;
+    void deleteAttachments(removed?.attachments ?? []);
     if (draft?.id === id) {
       draft = null;
       renderNoteEditor();
@@ -349,13 +431,23 @@ function storeNotes(next, message) {
   const success = save(keys.notes, JSON.stringify(next));
   if (success) {
     entries = next;
-    refreshNotes();
+    if (currentPage === 'catatan') refreshNotes();
   }
-  main.querySelector('#note-status').textContent = success ? message : 'Catatan gagal disimpan di browser ini.';
+  setNoteStatus(success ? message : 'Catatan gagal disimpan di browser ini.');
   return success;
 }
 
 main.addEventListener('change', event => {
+  if (event.target.id === 'note-files') {
+    const files = Array.from(event.target.files);
+    event.target.value = '';
+    if (savingNote) return;
+    const accepted = files.filter(file => file.size <= attachmentLimit);
+    draft.attachments.push(...accepted.map(file => ({id:newId(),name:file.name,blob:file})));
+    main.querySelector('#draft-files').innerHTML = attachmentList(draft.attachments,true);
+    setNoteStatus(accepted.length < files.length ? 'File di atas 10 MB tidak ditambahkan.' : '');
+    return;
+  }
   if (event.target.id === 'category-filter') {
     noteCategory = event.target.value;
     main.querySelector('#note-list').innerHTML = noteList();
@@ -375,10 +467,10 @@ main.addEventListener('input', event => {
     noteQuery = event.target.value;
     main.querySelector('#note-list').innerHTML = noteList();
   }
-  if (event.target.form?.id === 'note-form') draft[event.target.name] = event.target.value;
+  if (event.target.form?.id === 'note-form' && event.target.name && !savingNote) draft[event.target.name] = event.target.value;
 });
 
-main.addEventListener('submit', event => {
+main.addEventListener('submit', async event => {
   const form = event.target;
   if (form.id === 'item-form') {
     event.preventDefault();
@@ -391,18 +483,40 @@ main.addEventListener('submit', event => {
   }
   if (form.id !== 'note-form') return;
   event.preventDefault();
+  if (savingNote) return;
   const title = draft.title.trim();
   const body = draft.body.trim();
-  if (!title || !body) {
-    main.querySelector('#note-status').textContent = 'Isi judul dan isi catatan terlebih dahulu.';
+  const files = draft.attachments;
+  if (!title || (!body && !files.length)) {
+    setNoteStatus('Isi judul dan tambahkan isi catatan atau lampiran.');
     return;
   }
   const tags = [...new Set(draft.tags.split(',').map(tag => tag.trim().replace(/^#+/,'').trim()).filter(Boolean))];
-  const entry = {id:draft.id ?? newId(), title, body, category:draft.category.trim(), tags};
-  const next = draft.id ? entries.map(item => item.id === entry.id ? entry : item) : [entry,...entries];
-  if (storeNotes(next,'Catatan tersimpan.')) {
-    draft = null;
-    renderNoteEditor(true);
+  const previous = entries.find(entry => entry.id === draft.id);
+  const entry = {id:draft.id ?? newId(), title, body, category:draft.category.trim(), tags,
+    attachments:files.map(({id,name}) => ({id,name}))};
+  const next = previous ? entries.map(item => item.id === entry.id ? entry : item) : [entry,...entries];
+  const added = files.filter(file => file.blob);
+  const kept = new Set(files.map(file => file.id));
+  const removed = (previous?.attachments ?? []).filter(file => !kept.has(file.id));
+
+  savingNote = true;
+  form.querySelector('fieldset').disabled = true;
+  try {
+    if (added.length) {
+      await attachmentStore('readwrite', store => added.forEach(file => store.put(file.blob,file.id)));
+    }
+    if (storeNotes(next,'Catatan tersimpan.')) {
+      draft = null;
+      await deleteAttachments(removed);
+    } else {
+      await deleteAttachments(added);
+    }
+  } catch {
+    setNoteStatus('File gagal disimpan. Ruang penyimpanan browser mungkin tidak cukup.');
+  } finally {
+    savingNote = false;
+    if (currentPage === 'catatan') renderNoteEditor(true);
   }
 });
 

@@ -253,6 +253,19 @@ function koreaInfo() {
 }
 
 const pages = { itinerary, checklist, catatan:notes, tautan:usefulLinks, info:koreaInfo };
+const viewCounter = document.querySelector('#view-counter');
+let counterLoaded = false;
+function updateViewCounter(page) {
+  viewCounter.hidden = page !== 'itinerary' || !counterLoaded;
+  if (page !== 'itinerary' || viewCounter.hasAttribute('src')) return;
+  if (location.hostname !== 'ktrip.kuro.my.id') return;
+  viewCounter.addEventListener('load', () => {
+    counterLoaded = true;
+    viewCounter.hidden = currentPage !== 'itinerary';
+  }, {once:true});
+  viewCounter.src = 'https://hits.sh/ktrip.kuro.my.id.svg?style=flat-square&label=%E2%80%8B&labelColor=9b3d63&color=9b3d63';
+}
+
 let currentPage;
 function render() {
   const hash = location.hash.slice(1);
@@ -261,6 +274,7 @@ function render() {
   if (page === currentPage) return;
   const moved = Boolean(currentPage);
   currentPage = page;
+  updateViewCounter(page);
   main.innerHTML = pages[page]();
   nav.innerHTML = `<div class="nav-inner">${tabs.map(([id,symbol,label]) => `<a href="#${id}" ${page === id ? 'aria-current="page"' : ''}><span>${icon(symbol)}</span>${label}</a>`).join('')}</div>`;
   if (page === 'checklist') refreshChecklist();

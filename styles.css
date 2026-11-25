@@ -173,3 +173,5 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .guide-details li + li { margin-top:8px; }
 .stops .travel-time { display:flex; align-items:flex-start; gap:6px; margin-top:7px; padding:6px 8px; border-radius:9px; background:var(--lilac); color:var(--ink); font-size:.82rem; }
 .travel-time svg { width:15px; height:15px; margin-top:2px; }
+.top-actions { display:flex; align-items:center; gap:7px; }
+#view-counter { height:16px; max-width:72px; }

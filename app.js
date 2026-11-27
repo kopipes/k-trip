@@ -1,5 +1,5 @@
 import { updateWeather } from './weather.js?v=weather-1';
-import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=travel-time-1';
+import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=store-links-1';
 
 const shapes = {
   calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/><path d="M8 15h2m4 0h2"/>',
@@ -297,7 +297,10 @@ function notes() {
 
 function usefulLinks() {
   return `${heading('link','Tautan berguna','Aplikasi, situs resmi, dan akun yang bisa kamu buka selama trip.')}
-  ${links.map(([group,items]) => `<section class="link-group"><h2>${group}</h2>${items.map(([title,desc,url,symbol]) => `<a class="card resource" href="${url}" rel="noopener noreferrer" target="_blank" aria-label="${title} (buka tab baru)"><span class="tile sage">${icon(symbol)}</span><span class="row-copy"><strong>${title}</strong><span>${desc}</span></span><span class="arrow">${icon('external')}</span></a>`).join('')}</section>`).join('')}`;
+  ${links.map(([group,items]) => `<section class="link-group"><h2>${group}</h2>${items.map(([title,desc,url,symbol,stores]) => `<div class="card resource-card">
+    <a class="resource" href="${url}" rel="noopener noreferrer" target="_blank" aria-label="${title} (buka tab baru)"><span class="tile sage">${icon(symbol)}</span><span class="row-copy"><strong>${title}</strong><span>${desc}</span></span><span class="arrow">${icon('external')}</span></a>
+    ${stores ? `<div class="contact-actions store-actions"><a href="${stores.android}" target="_blank" rel="noopener noreferrer" aria-label="Instal ${title} di Android">Android · Google Play ↗</a><a href="${stores.iphone}" target="_blank" rel="noopener noreferrer" aria-label="Instal ${title} di iPhone">iPhone · App Store ↗</a></div>` : ''}
+  </div>`).join('')}</section>`).join('')}`;
 }
 
 function wonTable() {

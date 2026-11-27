@@ -115,9 +115,10 @@ export const guide = [
 
 export const links = [
   ['Peta & transportasi',[
-    ['Naver Map','Rute jalan kaki, subway, dan bus','https://map.naver.com/','pin'],
+    ['Naver Map','Rute jalan kaki, subway, dan bus','https://map.naver.com/','pin',{android:'https://play.google.com/store/apps/details?id=com.nhn.android.nmap',iphone:'https://apps.apple.com/app/id311867728'}],
     ['KakaoMap','Alternatif peta dan pencarian lokasi','https://map.kakao.com/','pin'],
-    ['Papago','Terjemahan Korea, termasuk teks dari kamera','https://papago.naver.com/','globe']
+    ['Papago','Terjemahan Korea, termasuk teks dari kamera','https://papago.naver.com/','globe',{android:'https://play.google.com/store/apps/details?id=com.naver.labs.translator',iphone:'https://apps.apple.com/app/id1147874819'}],
+    ['Uber','Pesan kendaraan melalui aplikasi','https://www.uber.com/','train',{android:'https://play.google.com/store/apps/details?id=com.ubercab',iphone:'https://apps.apple.com/app/id368677368'}]
   ]],
   ['Info resmi & inspirasi',[
     ['VISITKOREA','Panduan wisata resmi Korea','https://english.visitkorea.or.kr/','globe'],

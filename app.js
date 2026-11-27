@@ -1,5 +1,5 @@
 import { updateWeather } from './weather.js?v=weather-1';
-import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=store-links-1';
+import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=jakarta-1';
 
 const shapes = {
   calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/><path d="M8 15h2m4 0h2"/>',

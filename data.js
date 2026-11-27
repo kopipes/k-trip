@@ -50,8 +50,8 @@ export const days = [
   ], hotel:'seoul', transport:'Tanpa bus rombongan' },
   { date:'5 Des', weekday:'Sab', icon:'plane', title:'Seoul → Incheon → Jakarta', subtitle:'Penerbangan pulang ke Jakarta', meal:true, flight:['GA 879 · Garuda Indonesia','ICN 10.35 KST → CGK 16.00 WIB', '7 jam 25 menit'], stops:[
     ['Incheon International Airport','Berangkat dari Seoul menuju Incheon International Airport. Garuda GA 879 berangkat pukul 10.35 waktu Korea dan dijadwalkan tiba di Jakarta pukul 16.00 WIB.', 'Dari Bridge Hotel ke bandara: sekitar 50–90 menit berkendara, di luar waktu check-in dan pemeriksaan.'],
-    ['Jakarta → J Town','Dokumen menyebut penerbangan lanjutan ke J Town setelah tiba di Jakarta. Nomor penerbangan, jam, dan nama kota lengkap belum dicantumkan.']
-  ], details:['Jam berangkat dari hotel','Detail penerbangan lanjutan'] },
+    ['Tiba di Jakarta','Tiba di Bandara Soekarno–Hatta pukul 16.00 WIB. Perjalanan tur berakhir di Jakarta.']
+  ], details:['Jam berangkat dari hotel'] },
 ];
 
 export const packing = [

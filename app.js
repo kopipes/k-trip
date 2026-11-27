@@ -1,3 +1,4 @@
+import { updateWeather } from './weather.js?v=weather-1';
 import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=travel-time-1';
 
 const shapes = {
@@ -120,6 +121,7 @@ function itinerary() {
     <div class="day-list">${days.map((day,i) => `<details class="card day" id="day-${i}" data-day="${i}" ${collapse.has(i) || (!collapse.has('initial') && i === 0) ? 'open' : ''}>
       <summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(day.icon)}</span><span class="row-copy"><small>HARI ${String(i+1).padStart(2,'0')} · ${day.date}</small><strong>${day.title}</strong><span>${day.subtitle}</span></span><span class="arrow">${icon('chevron')}</span></summary>
       <div class="detail-body">
+        <section class="day-weather" data-weather="${i}" aria-label="Prakiraan cuaca"><p>Memuat prakiraan cuaca…</p></section>
         ${day.flight ? `<div class="flight">${icon('plane')}<div><strong>${day.flight[0]}</strong><span>${day.flight[1]}</span><span>Durasi terjadwal · ${day.flight[2]}</span></div></div>` : ''}
         <ol class="stops">${day.stops.map(([title,desc,duration]) => `<li><strong>${title}</strong><p>${desc}</p>${duration ? `<p class="travel-time">${icon('clock')} <span>${duration}</span></p>` : ''}</li>`).join('')}</ol>
         ${day.hotel ? hotelDetails(hotels[day.hotel]) : ''}
@@ -345,6 +347,7 @@ function render() {
   currentPage = page;
   updateViewCounter(page);
   main.innerHTML = pages[page]();
+  if (page === 'itinerary') void updateWeather();
   nav.innerHTML = `<div class="nav-inner">${tabs.map(([id,symbol,label]) => `<a href="#${id}" ${page === id ? 'aria-current="page"' : ''}><span>${icon(symbol)}</span>${label}</a>`).join('')}</div>`;
   if (page === 'checklist') refreshChecklist();
   if (page === 'catatan') {

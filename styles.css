@@ -182,3 +182,9 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .attachments li { display:flex; align-items:center; justify-content:space-between; gap:6px; overflow-wrap:anywhere; }
 .attachments button { min-width:0; text-align:left; overflow-wrap:anywhere; }
 .attachments svg { width:15px; height:15px; }
+.day-weather { margin-bottom:12px; border:1px solid var(--line); border-radius:13px; overflow:hidden; }
+.weather-caption,.day-weather > p { padding:9px 10px; color:var(--quiet); font-size:.74rem; background:var(--lilac); line-height:1.5; }
+.weather-row { display:grid; gap:4px; padding:10px; border-top:1px solid var(--line); font-size:.84rem; }
+.weather-row strong { color:var(--accent); }
+.weather-row span { line-height:1.5; }
+.weather-row small { color:var(--quiet); font-size:.7rem; }

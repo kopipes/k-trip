@@ -132,6 +132,12 @@ function itinerary() {
         ${day.transport ? `<p class="meal">${day.transport}</p>` : ''}
         ${day.meal ? '<p class="meal">Termasuk makan pagi (MP)</p>' : ''}
         ${day.details ? `<dl class="pending">${day.details.map(label => `<div><dt>${label}</dt><dd aria-label="Belum tersedia">—</dd></div>`).join('')}</dl>` : ''}
+        <div class="clothes-note">
+          <label for="clothes-${i}">Clothes <span>· Hari ${i+1}</span></label>
+          <p id="clothes-help-${i}">Catatan pakaianmu. Tersimpan otomatis di browser ini. Peserta lain yang membuka dari HP mereka tidak melihat isinya.</p>
+          <textarea id="clothes-${i}" data-clothes="${day.date}" rows="2" aria-describedby="clothes-help-${i} clothes-status-${i}" placeholder="Contoh: sweater krem, celana hitam, jaket hangat">${escape(read(`k-trip-2026-clothes-${day.date}`) ?? '')}</textarea>
+          <small id="clothes-status-${i}" role="status"></small>
+        </div>
       </div>
     </details>`).join('')}</div>
   </section>`;
@@ -486,6 +492,12 @@ main.addEventListener('change', event => {
 });
 
 main.addEventListener('input', event => {
+  if (event.target.matches('[data-clothes]')) {
+    const saved = save(`k-trip-2026-clothes-${event.target.dataset.clothes}`, event.target.value);
+    event.target.closest('.clothes-note').querySelector('[role="status"]').textContent =
+      saved ? 'Tersimpan di browser ini.' : 'Gagal menyimpan. Salin catatanmu sebelum menutup halaman.';
+    return;
+  }
   if (event.target.id === 'note-search') {
     noteQuery = event.target.value;
     main.querySelector('#note-list').innerHTML = noteList();

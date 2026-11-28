@@ -1,5 +1,5 @@
 import { updateWeather } from './weather.js?v=weather-1';
-import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=qris-guide-2';
+import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=qris-link-1';
 
 const shapes = {
   calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/><path d="M8 15h2m4 0h2"/>',
@@ -305,6 +305,7 @@ function usefulLinks() {
 
 function paymentReferences() {
   return `<div class="payment-references">
+    <div class="contact-actions"><a href="https://ezeelink.co.id/blog/qris-korea-selatan/" target="_blank" rel="noopener noreferrer">Baca artikel QRIS Korea · Ezeelink ↗</a></div>
     <p>Kenali nama layanan di kasir</p>
     <div class="payment-names"><span><strong>SeoulPay</strong><small>서울페이</small></span><span><strong>Jeju Pay</strong></span></div>
     <p>Gambar logo resmi belum tersedia di sini. Buka pencarian gambar untuk melihat contohnya, lalu cocokkan dengan tanda pembayaran dan konfirmasi ke kasir.</p>

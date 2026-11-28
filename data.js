@@ -128,6 +128,9 @@ export const links = [
     ['Papago','Terjemahan Korea, termasuk teks dari kamera','https://papago.naver.com/','globe',{android:'https://play.google.com/store/apps/details?id=com.naver.labs.translator',iphone:'https://apps.apple.com/app/id1147874819'}],
     ['Uber','Pesan kendaraan melalui aplikasi','https://www.uber.com/','train',{android:'https://play.google.com/store/apps/details?id=com.ubercab',iphone:'https://apps.apple.com/app/id368677368'}]
   ]],
+  ['Pembayaran',[
+    ['QRIS Korea · Ezeelink','Artikel tentang pembayaran QRIS di Korea Selatan','https://ezeelink.co.id/blog/qris-korea-selatan/','wallet']
+  ]],
   ['Info resmi & inspirasi',[
     ['QRIS · Bank Indonesia','Informasi resmi QRIS dan pembayaran lintas negara','https://www.bi.go.id/QRIS/default.aspx','wallet'],
     ['VISITKOREA','Panduan wisata resmi Korea','https://english.visitkorea.or.kr/','globe'],

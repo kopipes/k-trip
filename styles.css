@@ -192,3 +192,8 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .resource-card .resource { margin-top:0; }
 .store-actions { padding:0 12px 12px; margin-top:0; }
 .store-actions a { font-size:.77rem; }
+.payment-references { padding:0 14px 14px; }
+.payment-references p { padding:0; margin:7px 0; }
+.payment-names { display:flex; flex-wrap:wrap; gap:8px; }
+.payment-names > span { display:grid; align-content:center; gap:3px; padding:10px 14px; border:1px solid var(--line); border-radius:12px; }
+.payment-names small { color:var(--quiet); }

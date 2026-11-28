@@ -1,5 +1,5 @@
 import { updateWeather } from './weather.js?v=weather-1';
-import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=qris-guide-1';
+import { days, packing, guide, links, meeting, hotels, tourLeader } from './data.js?v=qris-guide-2';
 
 const shapes = {
   calendar:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18"/><path d="M8 15h2m4 0h2"/>',
@@ -303,6 +303,18 @@ function usefulLinks() {
   </div>`).join('')}</section>`).join('')}`;
 }
 
+function paymentReferences() {
+  return `<div class="payment-references">
+    <p>Kenali nama layanan di kasir</p>
+    <div class="payment-names"><span><strong>SeoulPay</strong><small>서울페이</small></span><span><strong>Jeju Pay</strong></span></div>
+    <p>Gambar logo resmi belum tersedia di sini. Buka pencarian gambar untuk melihat contohnya, lalu cocokkan dengan tanda pembayaran dan konfirmasi ke kasir.</p>
+    <div class="contact-actions">
+      <a href="https://www.google.com/search?tbm=isch&amp;q=SeoulPay+서울페이+logo" target="_blank" rel="noopener noreferrer">Lihat contoh logo SeoulPay ↗</a>
+      <a href="https://www.google.com/search?tbm=isch&amp;q=Jeju+Pay+payment+logo" target="_blank" rel="noopener noreferrer">Lihat contoh logo Jeju Pay ↗</a>
+    </div>
+  </div>`;
+}
+
 function wonTable() {
   const rupiahPerWon = 13.66;
   const amounts = [100, 500, 1000, 5000, 10000];
@@ -321,7 +333,7 @@ function koreaInfo() {
   return `${heading('info','Info Korea','Panduan singkat untuk persiapan dan hari-hari pertamamu di Korea.')}
   <div class="fact-grid"><div class="card"><span>Perkiraan suhu</span><strong>−2–12°C</strong></div><div class="card"><span>Zona waktu</span><strong>WIB +2 jam</strong></div><div class="card"><span>Mata uang</span><strong>Won · KRW</strong></div></div>
   ${wonTable()}
-  <div class="guide-list">${guide.map(([symbol,title,desc],i) => `<details class="card guide"><summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(symbol)}</span><strong>${title}</strong><span class="arrow">${icon('chevron')}</span></summary>${Array.isArray(desc) ? `<ul class="guide-details">${desc.map(point => `<li>${point}</li>`).join('')}</ul>` : `<p>${desc}</p>`}</details>`).join('')}</div>
+  <div class="guide-list">${guide.map(([symbol,title,desc],i) => `<details class="card guide"><summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(symbol)}</span><strong>${title}</strong><span class="arrow">${icon('chevron')}</span></summary>${Array.isArray(desc) ? `<ul class="guide-details">${desc.map(point => `<li>${point}</li>`).join('')}</ul>` : `<p>${desc}</p>`}${title === 'Pembayaran QRIS di Korea' ? paymentReferences() : ''}</details>`).join('')}</div>
   <section class="card contact"><h2>Hotel trip</h2>${Object.values(hotels).map(hotel => `<p class="hotel-dates">${hotel.dates}</p>${hotelDetails(hotel)}`).join('')}</section>
   <section class="card contact"><h2>Kontak trip</h2><dl class="pending"><div><dt>Tour leader</dt><dd>${tourLeader.name}<br>${tourLeader.phone}${tourLeaderActions()}</dd></div><div><dt>Grup WhatsApp</dt><dd class="contact-actions">${whatsappGroupLink}</dd></div></dl></section>`;
 }

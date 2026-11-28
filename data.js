@@ -80,7 +80,8 @@ export const guide = [
   ]],
   ['wallet','Pembayaran QRIS di Korea',[
     'Dukungan QRIS lintas negara untuk Korea perlu dicek di aplikasi bank atau dompet digital yang kamu gunakan. Pastikan Korea Selatan tercantum sebagai negara tujuan yang didukung. Daftar aplikasi dan merchant yang kompatibel belum terverifikasi di panduan ini.',
-    'Kalau melihat logo SeoulPay atau ZeroPay di kasir, tanyakan apakah QR tersebut menerima pembayaran dari aplikasi Indonesia yang kamu pakai. Logo pembayaran lokal saja belum memastikan transaksi QRIS bisa dilakukan.',
+    'Menurut info media sosial yang dibagikan peserta, merchant berlogo SeoulPay atau Jeju Pay disebut bisa menerima QRIS. Informasi ini belum terverifikasi dari sumber resmi. Dukungan dapat berbeda menurut merchant dan aplikasi pembayaran.',
+    'Cari nama SeoulPay (서울페이) atau Jeju Pay pada tanda pembayaran di kasir. Tanyakan apakah QR itu menerima pembayaran dari aplikasi Indonesia yang kamu pakai. Logo atau nama layanan saja belum memastikan transaksi akan berhasil.',
     'Jika aplikasi dan merchant mendukung, pindai QR dari aplikasi pembayaranmu. Periksa nama toko, nominal won, nilai rupiah, kurs, dan biaya yang ditampilkan sebelum menyetujui transaksi.',
     'Tunjukkan status pembayaran berhasil kepada kasir dan simpan bukti transaksi. Jika saldo sudah terpotong tetapi kasir belum menerima konfirmasi, cek riwayat transaksi dan hubungi layanan pelanggan aplikasi sebelum mencoba membayar ulang.',
     'Siapkan juga won tunai atau kartu untuk merchant yang belum mendukung. Info umum QRIS dari Bank Indonesia tersedia di halaman Tautan.'

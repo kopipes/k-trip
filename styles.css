@@ -197,3 +197,5 @@ nav { position:fixed; z-index:2; inset:auto 0 0; background:#fffdfa; border-top:
 .payment-names { display:flex; flex-wrap:wrap; gap:8px; }
 .payment-names > span { display:grid; align-content:center; gap:3px; padding:10px 14px; border:1px solid var(--line); border-radius:12px; }
 .payment-names small { color:var(--quiet); }
+
+.day-jump button .day-number { color:var(--accent); font-weight:850; }

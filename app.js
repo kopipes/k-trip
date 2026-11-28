@@ -92,7 +92,11 @@ function tourLeaderActions(includeGroup = false) {
 function hotelDetails(hotel) {
   const mapQuery = encodeURIComponent(`${hotel.name}, ${hotel.address}`);
   return `<div class="hotel-detail"><strong>${hotel.name}</strong><p>${hotel.address}</p>${telephone(hotel.phone)}
-    <div class="contact-actions"><a href="https://www.google.com/maps/search/?api=1&amp;query=${mapQuery}" target="_blank" rel="noopener noreferrer" aria-label="Buka di Peta: ${hotel.name}">${icon('pin')} Buka di Peta</a></div>
+    <div class="contact-actions">
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=${mapQuery}" target="_blank" rel="noopener noreferrer" aria-label="Buka di Peta: ${hotel.name}">${icon('pin')} Buka di Peta</a>
+      <a href="nmap://search?query=${mapQuery}&amp;appname=ktrip.kuro.my.id" aria-label="Buka Naver Map app: ${hotel.name}">Naver Map app</a>
+      <a href="https://map.naver.com/p/search/${mapQuery}" target="_blank" rel="noopener noreferrer" aria-label="Buka Naver Map web: ${hotel.name}">Naver Map web ↗</a>
+    </div>
   </div>`;
 }
 

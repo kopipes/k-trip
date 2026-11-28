@@ -111,6 +111,8 @@ function meetingCard() {
   </section>`;
 }
 
+const weekdayNames = {Min:'Minggu',Sen:'Senin',Sel:'Selasa',Rab:'Rabu',Kam:'Kamis',Jum:'Jumat',Sab:'Sabtu'};
+
 function itinerary() {
   return `<section class="hero" aria-labelledby="trip-title">
     <div class="hero-copy"><span class="hero-tag">✿ &nbsp; 7 hari · 5 malam</span>
@@ -123,7 +125,7 @@ function itinerary() {
     <div class="section-title"><div><h2 id="itinerary-title">Rencana perjalanan</h2><p>Ketuk hari untuk melihat detailnya. Durasi perjalanan darat dan feri adalah perkiraan kasar. Macet, antrean, dan pemberhentian bisa menambah waktu.</p></div><span class="tile peach">${icon('calendar')}</span></div>
     <div class="day-jump" aria-label="Lompat ke hari">${days.map((day,i) => `<button type="button" data-jump="${i}"><span class="day-number">Hari ${i+1}</span><span>${day.weekday}</span><strong>${day.date}</strong></button>`).join('')}</div>
     <div class="day-list">${days.map((day,i) => `<details class="card day" id="day-${i}" data-day="${i}" ${collapse.has(i) || (!collapse.has('initial') && i === 0) ? 'open' : ''}>
-      <summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(day.icon)}</span><span class="row-copy"><small>HARI ${String(i+1).padStart(2,'0')} · ${day.date}</small><strong>${day.title}</strong><span>${day.subtitle}</span></span><span class="arrow">${icon('chevron')}</span></summary>
+      <summary><span class="tile ${['peach','sage','lilac'][i%3]}">${icon(day.icon)}</span><span class="row-copy"><small>HARI ${String(i+1).padStart(2,'0')} · ${weekdayNames[day.weekday]}, ${day.date}</small><strong>${day.title}</strong><span>${day.subtitle}</span></span><span class="arrow">${icon('chevron')}</span></summary>
       <div class="detail-body">
         <section class="day-weather" data-weather="${i}" aria-label="Prakiraan cuaca"><p>Memuat prakiraan cuaca…</p></section>
         ${day.flight ? `<div class="flight">${icon('plane')}<div><strong>${day.flight[0]}</strong><span>${day.flight[1]}</span><span>Durasi terjadwal · ${day.flight[2]}</span></div></div>` : ''}

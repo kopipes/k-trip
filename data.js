@@ -78,6 +78,13 @@ export const guide = [
     'Acuan panduan per 27 Oktober 2026: 1 KRW ≈ Rp13,66, 1 USD ≈ 1.322 KRW, dan 1 USD ≈ Rp18.062. Lihat tabel di atas untuk memperkirakan harga dalam rupiah.',
     'Laundry, telepon, minibar, dan tur tambahan menjadi biaya pribadi. Selesaikan tagihan hotel di kasir sebelum check-out.'
   ]],
+  ['wallet','Pembayaran QRIS di Korea',[
+    'Dukungan QRIS lintas negara untuk Korea perlu dicek di aplikasi bank atau dompet digital yang kamu gunakan. Pastikan Korea Selatan tercantum sebagai negara tujuan yang didukung. Daftar aplikasi dan merchant yang kompatibel belum terverifikasi di panduan ini.',
+    'Kalau melihat logo SeoulPay atau ZeroPay di kasir, tanyakan apakah QR tersebut menerima pembayaran dari aplikasi Indonesia yang kamu pakai. Logo pembayaran lokal saja belum memastikan transaksi QRIS bisa dilakukan.',
+    'Jika aplikasi dan merchant mendukung, pindai QR dari aplikasi pembayaranmu. Periksa nama toko, nominal won, nilai rupiah, kurs, dan biaya yang ditampilkan sebelum menyetujui transaksi.',
+    'Tunjukkan status pembayaran berhasil kepada kasir dan simpan bukti transaksi. Jika saldo sudah terpotong tetapi kasir belum menerima konfirmasi, cek riwayat transaksi dan hubungi layanan pelanggan aplikasi sebelum mencoba membayar ulang.',
+    'Siapkan juga won tunai atau kartu untuk merchant yang belum mendukung. Info umum QRIS dari Bank Indonesia tersedia di halaman Tautan.'
+  ]],
   ['bag','Bagasi & kabin',[
     'Panduan mencantumkan jatah ekonomi Garuda sebesar 30 kg untuk bagasi tercatat dan satu tas kabin maksimal 7 kg, termasuk gagang dan roda. Cocokkan dengan tiket. Biaya kelebihan berat ditanggung peserta.',
     'Gunakan koper berkunci dan beroda. Empat roda disarankan. Simpan nama dan alamat pemilik di dalam koper.',
@@ -121,6 +128,7 @@ export const links = [
     ['Uber','Pesan kendaraan melalui aplikasi','https://www.uber.com/','train',{android:'https://play.google.com/store/apps/details?id=com.ubercab',iphone:'https://apps.apple.com/app/id368677368'}]
   ]],
   ['Info resmi & inspirasi',[
+    ['QRIS · Bank Indonesia','Informasi resmi QRIS dan pembayaran lintas negara','https://www.bi.go.id/QRIS/default.aspx','wallet'],
     ['VISITKOREA','Panduan wisata resmi Korea','https://english.visitkorea.or.kr/','globe'],
     ['Korea Tourism Organization','Instagram resmi untuk inspirasi wisata','https://www.instagram.com/visitkorea_travel/','camera'],
     ['Garuda Indonesia','Informasi penerbangan dan ketentuan bagasi','https://www.garuda-indonesia.com/','plane'],

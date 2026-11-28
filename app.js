@@ -111,6 +111,18 @@ function meetingCard() {
   </section>`;
 }
 
+function resizeClothesInput(input) {
+  if (!input.getClientRects().length) return;
+  input.style.height = 'auto';
+  input.style.height = `${input.scrollHeight + input.offsetHeight - input.clientHeight}px`;
+}
+
+function resizeClothesInputs() {
+  main.querySelectorAll('[data-clothes]').forEach(resizeClothesInput);
+}
+
+window.addEventListener('resize', resizeClothesInputs);
+
 const weekdayNames = {Min:'Minggu',Sen:'Senin',Sel:'Selasa',Rab:'Rabu',Kam:'Kamis',Jum:'Jumat',Sab:'Sabtu'};
 
 function itinerary() {
@@ -375,6 +387,7 @@ function render() {
   currentPage = page;
   updateViewCounter(page);
   main.innerHTML = pages[page]();
+  resizeClothesInputs();
   if (page === 'itinerary') void updateWeather();
   nav.innerHTML = `<div class="nav-inner">${tabs.map(([id,symbol,label]) => `<a href="#${id}" ${page === id ? 'aria-current="page"' : ''}><span>${icon(symbol)}</span>${label}</a>`).join('')}</div>`;
   if (page === 'checklist') refreshChecklist();
@@ -443,6 +456,7 @@ main.addEventListener('click', event => {
 main.addEventListener('toggle', event => {
   const day = event.target;
   if (!day.matches('[data-day]')) return;
+  if (day.open) resizeClothesInput(day.querySelector('[data-clothes]'));
   collapse.add('initial');
   if (day.open) collapse.add(Number(day.dataset.day));
   else collapse.delete(Number(day.dataset.day));
@@ -495,6 +509,7 @@ main.addEventListener('change', event => {
 
 main.addEventListener('input', event => {
   if (event.target.matches('[data-clothes]')) {
+    resizeClothesInput(event.target);
     const saved = save(`k-trip-2026-clothes-${event.target.dataset.clothes}`, event.target.value);
     event.target.closest('.clothes-note').querySelector('[role="status"]').textContent =
       saved ? 'Tersimpan di browser ini.' : 'Gagal menyimpan. Salin catatanmu sebelum menutup halaman.';
